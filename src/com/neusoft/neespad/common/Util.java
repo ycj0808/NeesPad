@@ -1,4 +1,4 @@
-package com.neusoft.neespad.common;
+ï»¿package com.neusoft.neespad.common;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -16,10 +16,10 @@ import android.graphics.BitmapFactory;
 public class Util {
 	public static byte[] decodeBitmap(String path) {
 		BitmapFactory.Options opts = new BitmapFactory.Options();
-		opts.inJustDecodeBounds = true;// ÉèÖÃ³ÉÁËtrue,²»Õ¼ÓÃÄÚ´æ£¬Ö»»ñÈ¡bitmap¿í¸ß
+		opts.inJustDecodeBounds = true;// è®¾ç½®æˆäº†true,ä¸å ç”¨å†…å­˜ï¼Œåªè·å–bitmapå®½é«˜
 		BitmapFactory.decodeFile(path, opts);
 		opts.inSampleSize = computeSampleSize(opts, -1, 1024 * 800);
-		opts.inJustDecodeBounds = false;// ÕâÀïÒ»¶¨Òª½«ÆäÉèÖÃ»Øfalse£¬ÒòÎªÖ®Ç°ÎÒÃÇ½«ÆäÉèÖÃ³ÉÁËtrue
+		opts.inJustDecodeBounds = false;// è¿™é‡Œä¸€å®šè¦å°†å…¶è®¾ç½®å›falseï¼Œå› ä¸ºä¹‹å‰æˆ‘ä»¬å°†å…¶è®¾ç½®æˆäº†true
 		opts.inPurgeable = true;
 		opts.inInputShareable = true;
 		opts.inDither = false;
@@ -58,7 +58,7 @@ public class Util {
 
 	private static double getScaling(int src, int des) {
 		/**
-		 * 48 Ä¿±ê³ß´ç¡ÂÔ­³ß´ç sqrt¿ª·½£¬µÃ³ö¿í¸ß°Ù·Ö±È 49
+		 * 48 ç›®æ ‡å°ºå¯¸Ã·åŸå°ºå¯¸ sqrtå¼€æ–¹ï¼Œå¾—å‡ºå®½é«˜ç™¾åˆ†æ¯” 49
 		 */
 		double scale = Math.sqrt((double) des / (double) src);
 		return scale;
@@ -120,7 +120,7 @@ public class Util {
 	}
 
 	public static String getMd5(byte[] bytes) throws NoSuchAlgorithmException {
-		MessageDigest md5 = MessageDigest.getInstance("MD5");// ÉêÃ÷Ê¹ÓÃMD5Ëã·¨
+		MessageDigest md5 = MessageDigest.getInstance("MD5");// ç”³æ˜ä½¿ç”¨MD5ç®—æ³•
 		md5.update(bytes);
 		return getbyte2str(md5.digest());
 	}
@@ -137,7 +137,7 @@ public class Util {
 		return fileBytes;
 	}
 
-	// md5 Ğ£Ñé·µ»ØÖµ
+	// md5 æ ¡éªŒè¿”å›å€¼
 	public static String getMd5Value(String path) throws Exception, IOException {
 		return getMd5(getPdfByte(path));
 	}

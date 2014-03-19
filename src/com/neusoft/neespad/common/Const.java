@@ -1,13 +1,13 @@
-package com.neusoft.neespad.common;
+锘縫ackage com.neusoft.neespad.common;
 
 import android.os.Environment;
 
 public class Const {
 	
-	//应用相册目录
+	//搴旂敤鐩稿唽鐩綍
 	public static String imgPath=Environment.getExternalStorageDirectory().getAbsolutePath()+"/nees";
-	//应用相册临时目录
+	//搴旂敤鐩稿唽涓存椂鐩綍
 	public static String tempPath=Environment.getExternalStorageDirectory().getAbsolutePath()+"/nees/temp";
-	//获取系统目录
+	//鑾峰彇绯荤粺鐩綍
 	public static String commPath=Environment.getExternalStorageDirectory().getAbsolutePath();
 }

@@ -1,4 +1,4 @@
-package com.neusoft.neespad.activity;
+ï»¿package com.neusoft.neespad.activity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,17 +25,17 @@ import android.widget.ImageView;
 
 public class MainActivity extends Activity {
 
-	// Viewpager¶ÔÏó 
+	// Viewpagerå¯¹è±¡ 
 	private ViewPager viewPager;
 	private ImageView imageView;
-	// ´´½¨Ò»¸öÊı×é£¬ÓÃÀ´´æ·ÅÃ¿¸öÒ³ÃæÒªÏÔÊ¾µÄView 
+	// åˆ›å»ºä¸€ä¸ªæ•°ç»„ï¼Œç”¨æ¥å­˜æ”¾æ¯ä¸ªé¡µé¢è¦æ˜¾ç¤ºçš„View 
 	private ArrayList<View> pageViews;
-	// ×°ÏÔÊ¾Í¼Æ¬µÄviewgroup 
+	// è£…æ˜¾ç¤ºå›¾ç‰‡çš„viewgroup 
 	private ViewGroup viewPictures;
 	private Timer mTimer;
-	private TimerTask mTask;//¼ÆÊ±
+	private TimerTask mTask;//è®¡æ—¶
 	int pageIndex = 0;//
-	boolean isTaskRun;//ÊÇ·ñÔÚÔËĞĞ
+	boolean isTaskRun;//æ˜¯å¦åœ¨è¿è¡Œ
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
 		pageViews = new ArrayList<View>();
 		pageViews.add(inflater.inflate(R.layout.viewpagers00, null));
 		pageViews.add(inflater.inflate(R.layout.viewpagers01, null));
-		// ´ÓÖ¸¶¨µÄXMLÎÄ¼şÖĞ¼ÓÔØÊÓÍ¼
+		// ä»æŒ‡å®šçš„XMLæ–‡ä»¶ä¸­åŠ è½½è§†å›¾
 		viewPictures = (ViewGroup) inflater.inflate(R.layout.layout_main, null);
 		viewPager=(ViewPager) viewPictures.findViewById(R.id.guidePagers);
 		setContentView(viewPictures);
@@ -92,12 +92,15 @@ public class MainActivity extends Activity {
 		}
 		@Override
 		public void onPageSelected(int index) {
+			if(index==pageViews.size()-1){
+				index=0;
+			}
 			pageIndex = index;
 		}
 	}
 	
 	/**
-	 * ¿ªÆô¶¨Ê±ÈÎÎñ
+	 * å¼€å¯å®šæ—¶ä»»åŠ¡
 	 */
 	private void startTask() {
 		// TODO Auto-generated method stub
@@ -110,11 +113,11 @@ public class MainActivity extends Activity {
 				mHandler.sendEmptyMessage(0);
 			}
 		};
-		mTimer.schedule(mTask, 2 * 1000, 2 * 1000);// ÕâÀïÉèÖÃ×Ô¶¯ÇĞ»»µÄÊ±¼ä£¬µ¥Î»ÊÇºÁÃë£¬2*1000±íÊ¾2Ãë
+		mTimer.schedule(mTask, 2 * 1000, 2 * 1000);// è¿™é‡Œè®¾ç½®è‡ªåŠ¨åˆ‡æ¢çš„æ—¶é—´ï¼Œå•ä½æ˜¯æ¯«ç§’ï¼Œ2*1000è¡¨ç¤º2ç§’
 	}
 
 	/**
-	 * Í£Ö¹¶¨Ê±ÈÎÎñ
+	 * åœæ­¢å®šæ—¶ä»»åŠ¡
 	 */
 	private void stopTask() {
 		// TODO Auto-generated method stub
@@ -122,7 +125,7 @@ public class MainActivity extends Activity {
 		mTimer.cancel();
 	}
 
-	// ´¦ÀíEmptyMessage(0)
+	// å¤„ç†EmptyMessage(0)
 	@SuppressLint("HandlerLeak")
 	Handler mHandler = new Handler() {
 		@Override
@@ -132,13 +135,13 @@ public class MainActivity extends Activity {
 	};
 
 	/**
-	 * ´¦ÀíPageµÄÇĞ»»Âß¼­
+	 * å¤„ç†Pageçš„åˆ‡æ¢é€»è¾‘
 	 */
 	private void setCurrentItem() {
 	   if (pageIndex == new NavigationPageAdapter().getCount()) {
 			pageIndex = 0;
 		}
-	   viewPager.setCurrentItem(pageIndex, false);// È¡Ïû¶¯»­
+	   viewPager.setCurrentItem(pageIndex, false);// å–æ¶ˆåŠ¨ç”»
 	}
 	
 	@Override

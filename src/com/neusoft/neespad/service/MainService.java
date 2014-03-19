@@ -1,4 +1,4 @@
-package com.neusoft.neespad.service;
+ï»¿package com.neusoft.neespad.service;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -21,8 +21,8 @@ import android.util.Log;
 public class MainService extends Service {
 
 	public static final String TAG = "MainService";
-	public static Boolean mainThreadFlag = true;// Ö÷Ïß³Ì±êÖ¾Î»
-	public static Boolean ioThreadFlag = true;// IOÏß³Ì±êÖ¾Î»
+	public static Boolean mainThreadFlag = true;// ä¸»çº¿ç¨‹æ ‡å¿—ä½
+	public static Boolean ioThreadFlag = true;// IOçº¿ç¨‹æ ‡å¿—ä½
 	ServerSocket serverSocket = null;
 	private final int SERVER_PORT = 10000;
 	private MyApplication app;
@@ -34,12 +34,12 @@ public class MainService extends Service {
 	}
 
 	/**
-	 * ´´½¨ĞÂµÄ¹¤³ÌÄ¿Â¼ createNewDirectory
+	 * åˆ›å»ºæ–°çš„å·¥ç¨‹ç›®å½• createNewDirectory
 	 * 
 	 * @Title: createNewDirectory
 	 * @Description: TODO
-	 * @param @param name Éè¶¨ÎÄ¼ş
-	 * @return void ·µ»ØÀàĞÍ
+	 * @param @param name è®¾å®šæ–‡ä»¶
+	 * @return void è¿”å›ç±»å‹
 	 * @throws
 	 */
 	private void createNewDirectory(String name) {
@@ -61,12 +61,12 @@ public class MainService extends Service {
 	}
 
 	/**
-	 * ¼àÌıÊÂ¼ş doListen
+	 * ç›‘å¬äº‹ä»¶ doListen
 	 * 
 	 * @Title: doListen
 	 * @Description: TODO
-	 * @param Éè¶¨ÎÄ¼ş
-	 * @return void ·µ»ØÀàĞÍ
+	 * @param è®¾å®šæ–‡ä»¶
+	 * @return void è¿”å›ç±»å‹
 	 * @throws
 	 */
 	public void doListen() {
@@ -82,9 +82,9 @@ public class MainService extends Service {
 				Log.d(TAG, Thread.currentThread().getName() + "---->"
 						+ "doListen() START");
 				client = serverSocket.accept();
-				// ÏÈ¿ªÆôÒ»¸ö»î¶¯ Ïß³Ì
+				// å…ˆå¼€å¯ä¸€ä¸ªæ´»åŠ¨ çº¿ç¨‹
 				new Thread(new ThreadStartActivty(MainService.this, client)).start();
-				// ·¢ËÍÏûÏ¢ Ïß³Ì
+				// å‘é€æ¶ˆæ¯ çº¿ç¨‹
 				new Thread(new ThreadWriterSocket(client)).start();
 			}
 		} catch (Exception e) {
@@ -93,12 +93,12 @@ public class MainService extends Service {
 	}
 
 	/**
-	 * ·¢ËÍ¹ã²¥ sendBroadCast
+	 * å‘é€å¹¿æ’­ sendBroadCast
 	 * 
 	 * @Title: sendBroadCast
 	 * @Description: TODO
-	 * @param @param name Éè¶¨ÎÄ¼ş
-	 * @return void ·µ»ØÀàĞÍ
+	 * @param @param name è®¾å®šæ–‡ä»¶
+	 * @return void è¿”å›ç±»å‹
 	 * @throws
 	 */
 	public void sendBroadCast(String name) {
@@ -106,15 +106,15 @@ public class MainService extends Service {
 	}
 
 	/**
-	 * Ğ£ÑéÎÄ¼şµÄMD5 checkFile(ÕâÀïÓÃÒ»¾ä»°ÃèÊöÕâ¸ö·½·¨µÄ×÷ÓÃ)
+	 * æ ¡éªŒæ–‡ä»¶çš„MD5 checkFile(è¿™é‡Œç”¨ä¸€å¥è¯æè¿°è¿™ä¸ªæ–¹æ³•çš„ä½œç”¨)
 	 * 
 	 * @Title: checkFile
 	 * @Description: TODO
 	 * @param @param MD5Str
 	 * @param @param filePaths
 	 * @param @return
-	 * @param @throws Exception Éè¶¨ÎÄ¼ş
-	 * @return boolean ·µ»ØÀàĞÍ
+	 * @param @throws Exception è®¾å®šæ–‡ä»¶
+	 * @return boolean è¿”å›ç±»å‹
 	 * @throws
 	 */
 	public boolean checkFile(JSONArray MD5Str, JSONArray filePaths)
@@ -132,11 +132,11 @@ public class MainService extends Service {
 	}
 
 	/**
-	  * »î¶¯Ïß³Ì
+	  * æ´»åŠ¨çº¿ç¨‹
 	  * @ClassName: ThreadStartActivty
 	  * @Description: TODO
 	  * @author yangchj
-	  * @date 2014-3-18 ÏÂÎç3:00:43
+	  * @date 2014-3-18 ä¸‹åˆ3:00:43
 	  */
 	public class ThreadStartActivty implements Runnable {
 
@@ -167,12 +167,12 @@ public class MainService extends Service {
 						if (!client.isConnected()) {
 							break;
 						}
-						//½ÓÊÕPC·¢À´µÄÊı¾İ
+						//æ¥æ”¶PCå‘æ¥çš„æ•°æ®
 						Log.v(TAG, Thread.currentThread().getName() + "---->"+ "will read......");
-						//¶Á²Ù×÷ÃüÁî
+						//è¯»æ“ä½œå‘½ä»¤
 						String cmdStr=readCMDFromSocket(in);
 						Log.v(TAG, Thread.currentThread().getName() + "cmdStr---->"+ cmdStr);
-						//¸ù¾İÃüÁî´¦Àí»î¶¯
+						//æ ¹æ®å‘½ä»¤å¤„ç†æ´»åŠ¨
 						if(!"".equals(cmdStr)){
 							
 						}
@@ -202,14 +202,14 @@ public class MainService extends Service {
 		}
 	}
 	/**
-	  * ¶ÁÈ¡²Ù×÷ÃüÁî
+	  * è¯»å–æ“ä½œå‘½ä»¤
 	  * readCMDFromSocket
 	  * @Title: readCMDFromSocket
 	  * @Description: TODO
 	  * @param @param in
 	  * @param @return
-	  * @param @throws IOException    Éè¶¨ÎÄ¼ş
-	  * @return String    ·µ»ØÀàĞÍ
+	  * @param @throws IOException    è®¾å®šæ–‡ä»¶
+	  * @return String    è¿”å›ç±»å‹
 	  * @throws
 	  */
 	public String readCMDFromSocket(InputStream in) throws IOException {
@@ -224,11 +224,11 @@ public class MainService extends Service {
 		return msg;
 	}
 	/**
-	  * ·¢ËÍÏß³Ì
+	  * å‘é€çº¿ç¨‹
 	  * @ClassName: ThreadWriterSocket
 	  * @Description: TODO
 	  * @author yangchj
-	  * @date 2014-3-18 ÏÂÎç3:15:22
+	  * @date 2014-3-18 ä¸‹åˆ3:15:22
 	  */
 	public class ThreadWriterSocket implements Runnable{
 		private Socket client;

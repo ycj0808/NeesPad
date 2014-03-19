@@ -1,4 +1,4 @@
-package com.neusoft.neespad.common;
+ï»¿package com.neusoft.neespad.common;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,7 +24,7 @@ public class FileUtil
 	           }  
 	       }  
 	       catch  (Exception  e)  {  
-	           System.out.println("ĞÂ½¨Ä¿Â¼²Ù×÷³ö´í");  
+	           System.out.println("æ–°å»ºç›®å½•æ“ä½œå‡ºé”™");  
 	           e.printStackTrace();  
 	       }  
 	   }  
@@ -43,7 +43,7 @@ public class FileUtil
 	}
 
 	public static String getMd5(byte[] bytes) throws NoSuchAlgorithmException {
-		MessageDigest md5 = MessageDigest.getInstance("MD5");// ÉêÃ÷Ê¹ÓÃMD5Ëã·¨
+		MessageDigest md5 = MessageDigest.getInstance("MD5");// ç”³æ˜ä½¿ç”¨MD5ç®—æ³•
 		md5.update(bytes);
 		return getbyte2str(md5.digest());
 	}
@@ -58,7 +58,7 @@ public class FileUtil
 		fis.close();
 		return fileBytes;
 	}
-	//md5  Ğ£Ñé·µ»ØÖµ
+	//md5  æ ¡éªŒè¿”å›å€¼
 	public static String getMd5Value(String path) throws Exception, IOException
 	{
 		
@@ -83,7 +83,7 @@ public class FileUtil
 	}
 	
 	/**
-	 * ÅĞ¶ÏÊÇ·ñ²åÈëÄÚ´æ¿¨
+	 * åˆ¤æ–­æ˜¯å¦æ’å…¥å†…å­˜å¡
 	 * @return
 	 */
 	public static boolean isHasSdcard() {

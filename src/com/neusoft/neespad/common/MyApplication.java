@@ -1,4 +1,4 @@
-package com.neusoft.neespad.common;
+ï»¿package com.neusoft.neespad.common;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,9 +7,9 @@ import android.app.Application;
 
 public class MyApplication extends Application {
 
-	private String message;//´æ´¢ĞÅÏ¢
-	private String[] jsonString;// ´«ÊäÊı¾İ
-	private Map<String,Object>  map;//·¢ËÍÓÃµÄ
+	private String message;//å­˜å‚¨ä¿¡æ¯
+	private String[] jsonString;// ä¼ è¾“æ•°æ®
+	private Map<String,Object>  map;//å‘é€ç”¨çš„
 	@Override
 	public void onCreate() {
 		super.onCreate();

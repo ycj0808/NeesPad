@@ -1,4 +1,4 @@
-package com.neusoft.neespad.common;
+ï»¿package com.neusoft.neespad.common;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +14,8 @@ public class JsonUtil {
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
 			JSONObject obj = (JSONObject) jsonParser.nextValue();
-			JSONArray MD5Strs = obj.getJSONArray("MD5Str"); // md5Öµ
-			String BoardcastType = obj.getString("BoardcastType");// ¹ã²¥ÀàĞÍ
+			JSONArray MD5Strs = obj.getJSONArray("MD5Str"); // md5å€¼
+			String BoardcastType = obj.getString("BoardcastType");// å¹¿æ’­ç±»å‹
 			JSONArray filePaths = obj.getJSONArray("FilePath");
 			map.put("BoardcastType", BoardcastType);
 			map.put("MD5Str", MD5Strs);
@@ -51,8 +51,8 @@ public class JsonUtil {
 			} else {
 				object.put("FilePath", filepath);
 			}
-			object.put("BoardcastType", obj.get("BoardcastType"));// µÚÒ»¸ö¹ã²¥
-			object.put("Data", obj.get("Data")); // µÚËÄ¸öÊÇÊı¾İ
+			object.put("BoardcastType", obj.get("BoardcastType"));// ç¬¬ä¸€ä¸ªå¹¿æ’­
+			object.put("Data", obj.get("Data")); // ç¬¬å››ä¸ªæ˜¯æ•°æ®
 		} catch (JSONException e) {
 			e.printStackTrace();
 
@@ -63,7 +63,7 @@ public class JsonUtil {
 
 	public static JSONArray getArray(String[] obj) {
 
-		JSONArray array = new JSONArray(); // Êı×é
+		JSONArray array = new JSONArray(); // æ•°ç»„
 		if (obj.length == 0)
 			array.put("");
 		else {

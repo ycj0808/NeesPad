@@ -9,9 +9,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningTaskInfo;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.TypedValue;
 
 public class Util {
 	public static byte[] decodeBitmap(String path) {
@@ -156,5 +163,33 @@ public class Util {
 			return null;
 		}
 
+	}
+
+	public static int dpToPx(Resources res, int dp) {
+		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+				res.getDisplayMetrics());
+	}
+
+	/**
+	 * 判断当前应用程序处于前台还是后台 
+	 * isApplicationBroughtToBackground(这里用一句话描述这个方法的作用)
+	 * @Title: isApplicationBroughtToBackground
+	 * @Description: TODO
+	 * @param @param context
+	 * @param @return 设定文件
+	 * @return boolean 返回类型
+	 * @throws
+	 */
+	public static boolean isApplicationBroughtToBackground(final Context context) {
+		ActivityManager am = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+		List<RunningTaskInfo> tasks = am.getRunningTasks(1);
+		if (!tasks.isEmpty()) {
+			ComponentName topActivity = tasks.get(0).topActivity;
+			if (!topActivity.getPackageName().equals(context.getPackageName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

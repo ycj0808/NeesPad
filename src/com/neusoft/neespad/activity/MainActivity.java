@@ -4,10 +4,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import com.neusoft.neespad.common.Const;
 import com.neusoft.neespad.service.MainService;
-
+import com.neusoft.neespad.view.JazzyViewPager;
+import com.neusoft.neespad.view.JazzyViewPager.TransitionEffect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,7 +26,7 @@ import android.widget.ImageView;
 public class MainActivity extends Activity {
 
 	// Viewpager对象 
-	private ViewPager viewPager;
+//	private ViewPager viewPager;
 	private ImageView imageView;
 	// 创建一个数组，用来存放每个页面要显示的View 
 	private ArrayList<View> pageViews;
@@ -36,6 +36,7 @@ public class MainActivity extends Activity {
 	private TimerTask mTask;//计时
 	int pageIndex = 0;//
 	boolean isTaskRun;//是否在运行
+	private JazzyViewPager mJazzy;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,16 +48,24 @@ public class MainActivity extends Activity {
 		pageViews.add(inflater.inflate(R.layout.viewpagers01, null));
 		// 从指定的XML文件中加载视图
 		viewPictures = (ViewGroup) inflater.inflate(R.layout.layout_main, null);
-		viewPager=(ViewPager) viewPictures.findViewById(R.id.guidePagers);
+//		viewPager=(ViewPager) viewPictures.findViewById(R.id.guidePagers);
+		
 		setContentView(viewPictures);
-		viewPager.setAdapter(new NavigationPageAdapter());
-		viewPager.setOnPageChangeListener(new NavigationPageChangeListener());
-		startTask();
+		setupJazziness(TransitionEffect.FlipVertical);
+//		viewPager.setAdapter(new NavigationPageAdapter());
+		//viewPager.setOnPageChangeListener(new NavigationPageChangeListener());
+//		startTask();
 		Intent bootser = new Intent(MainActivity.this,MainService.class);
-		startService(bootser);
+		startService(bootser); 
 	}
 	
-	
+	private void setupJazziness(TransitionEffect effect) {
+		mJazzy=(JazzyViewPager) viewPictures.findViewById(R.id.guidePagers);
+		mJazzy.setTransitionEffect(effect);
+		mJazzy.setAdapter(new NavigationPageAdapter());
+//		mJazzy.setOnPageChangeListener(new NavigationPageChangeListener());
+		mJazzy.setPageMargin(30);
+	}
 	public class NavigationPageAdapter extends PagerAdapter{
 		@Override
 		public int getCount() {
@@ -69,11 +78,13 @@ public class MainActivity extends Activity {
 		@Override
 		public Object instantiateItem(View container, int position) {
 			((ViewPager) container).addView(pageViews.get(position));
+			mJazzy.setObjectForPosition(pageViews.get(position),position);
 			return pageViews.get(position);
 		}
 		@Override
 		public void destroyItem(View container, int position, Object object) {
-			((ViewPager) container).removeView(pageViews.get(position));
+			((ViewPager) container).removeView(mJazzy.findViewFromObject(position));
+			//((ViewPager) container).removeView(pageViews.get(position));
 		}
 	}
 	
@@ -113,7 +124,7 @@ public class MainActivity extends Activity {
 				mHandler.sendEmptyMessage(0);
 			}
 		};
-		mTimer.schedule(mTask, 2 * 1000, 2 * 1000);// 这里设置自动切换的时间，单位是毫秒，2*1000表示2秒
+		mTimer.schedule(mTask, 5 * 1000, 5 * 1000);// 这里设置自动切换的时间，单位是毫秒，2*1000表示2秒
 	}
 
 	/**
@@ -141,8 +152,15 @@ public class MainActivity extends Activity {
 	   if (pageIndex == new NavigationPageAdapter().getCount()) {
 			pageIndex = 0;
 		}
-	   viewPager.setCurrentItem(pageIndex, false);// 取消动画
+//	   viewPager.setCurrentItem(pageIndex, false);// 取消动画
+//	   String[] effects = this.getResources().getStringArray(R.array.jazzy_effects);
+//	   int index=(int) (Math.random()*12);
+//	   TransitionEffect effect = TransitionEffect.valueOf(effects[index]);
+//	   mJazzy.setTransitionEffect(effect);
+	   mJazzy.setCurrentItem(pageIndex, true);// 取消动画
 	}
+	
+	
 	
 	@Override
 	protected void onDestroy() {

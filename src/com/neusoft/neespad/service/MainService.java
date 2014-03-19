@@ -50,7 +50,11 @@ public class MainService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		createNewDirectory("neesPad");
-
+		new Thread() {
+			public void run() {
+				doListen();
+			}
+		}.start();
 	}
 
 	@Override
@@ -174,7 +178,18 @@ public class MainService extends Service {
 						Log.v(TAG, Thread.currentThread().getName() + "cmdStr---->"+ cmdStr);
 						//根据命令处理活动
 						if(!"".equals(cmdStr)){
-							
+							if("1".equals(cmdStr)){
+								sendBroadCast("nees.takePhoto_start");
+							}
+							if("2".equals(cmdStr)){
+								sendBroadCast("nees.takePhoto_processing");
+							}
+							if("3".equals(cmdStr)){
+								sendBroadCast("nees.sign");
+							}
+							if("4".equals(cmdStr)){
+								sendBroadCast("nees.takePhotoCompleted");
+							}
 						}
 						
 					} catch (Exception e) {

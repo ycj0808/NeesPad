@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="5" />
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/img_ads"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="4" 
+            android:background="@drawable/ads00"/>
+
+        <TextView
+            android:id="@+id/txt_note1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             android:layout_weight="0.5"
+            android:text="说明"
+            android:textSize="24sp"
+             />
+        <TextView
+            android:id="@+id/txt_note2"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="4.5" 
+            android:background="@color/gray"/>
+        <Button
+            android:id="@+id/btn_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1" 
+            android:text="签名"
+            />
+    </LinearLayout>
+
+</LinearLayout>

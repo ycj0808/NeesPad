@@ -1,5 +1,6 @@
 ﻿package com.neusoft.neespad.service;
 
+import com.neusoft.neespad.activity.BrowseProtocalActivity;
 import com.neusoft.neespad.activity.MainActivity;
 import com.neusoft.neespad.activity.SignActivity;
 import com.neusoft.neespad.activity.TakePhotoActivity;
@@ -52,11 +53,11 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
 			bootStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(bootStart);
 		}
-
 		// 查看协议
 		if (intent.getAction().equals(LOOK_PROTOCAL)) {
-
+			Intent bootStart = new Intent(context, BrowseProtocalActivity.class);
+			bootStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(bootStart);
 		}
 	}
-
 }

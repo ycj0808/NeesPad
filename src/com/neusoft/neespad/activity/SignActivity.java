@@ -78,7 +78,7 @@ public class SignActivity extends Activity {
 	            btn_save.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						String fileName=Const.tempPath+System.currentTimeMillis()+".png";
+						String fileName=Const.tempPath+"/"+System.currentTimeMillis()+".png";
 						 String str="";
 					    try {
 					    	str=savePhoto(fileName);

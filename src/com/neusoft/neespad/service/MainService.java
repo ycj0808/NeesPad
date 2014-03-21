@@ -80,14 +80,17 @@ public class MainService extends Service {
 		try {
 			Log.d(TAG, Thread.currentThread().getName() + "---->"
 					+ "doListen() new ServerSocket");
+			// 建立服务器端socket
 			serverSocket = new ServerSocket(SERVER_PORT);
 			boolean mainThreadFlag = true;
 			while (mainThreadFlag) {
 				Log.d(TAG, Thread.currentThread().getName() + "---->"
 						+ "doListen() START");
+				// 监听直到有客户端请求
 				client = serverSocket.accept();
 				// 先开启一个活动 线程
-				new Thread(new ThreadStartActivty(MainService.this, client)).start();
+				new Thread(new ThreadStartActivty(MainService.this, client))
+						.start();
 				// 发送消息 线程
 				new Thread(new ThreadWriterSocket(client)).start();
 			}
@@ -136,12 +139,13 @@ public class MainService extends Service {
 	}
 
 	/**
-	  * 活动线程
-	  * @ClassName: ThreadStartActivty
-	  * @Description: TODO
-	  * @author yangchj
-	  * @date 2014-3-18 下午3:00:43
-	  */
+	 * 活动线程
+	 * 
+	 * @ClassName: ThreadStartActivty
+	 * @Description: TODO
+	 * @author yangchj
+	 * @date 2014-3-18 下午3:00:43
+	 */
 	public class ThreadStartActivty implements Runnable {
 
 		private Socket client;
@@ -151,10 +155,13 @@ public class MainService extends Service {
 		private Intent bootStart;
 
 		public ThreadStartActivty(Context context, Socket client) {
+			// 客户端
 			this.client = client;
 			this.context = context;
 			try {
+				// 输出流
 				out = new BufferedOutputStream(client.getOutputStream());
+				// 输入流
 				in = new BufferedInputStream(client.getInputStream());
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -163,37 +170,45 @@ public class MainService extends Service {
 
 		@Override
 		public void run() {
-			Log.d(TAG, Thread.currentThread().getName() + "---->"+ "a client has connected to server!");
+			Log.d(TAG, Thread.currentThread().getName() + "---->"
+					+ "a client has connected to server!");
 			try {
 				ioThreadFlag = true;
-				while(ioThreadFlag){
+				while (ioThreadFlag) {
 					try {
 						if (!client.isConnected()) {
 							break;
 						}
-						//接收PC发来的数据
-						Log.v(TAG, Thread.currentThread().getName() + "---->"+ "will read......");
-						//读操作命令
-						String cmdStr=readCMDFromSocket(in);
-						Log.v(TAG, Thread.currentThread().getName() + "cmdStr---->"+ cmdStr);
-						//根据命令处理活动
-						if(!"".equals(cmdStr)){
-							if("1".equals(cmdStr)){
+						// 接收PC发来的数据
+						Log.v(TAG, Thread.currentThread().getName() + "---->"
+								+ "will read......");
+						// 读操作命令
+						String cmdStr = readCMDFromSocket(in);
+						Log.v(TAG, Thread.currentThread().getName()
+								+ "cmdStr---->" + cmdStr);
+						// 根据命令处理活动
+						if (!"".equals(cmdStr)) {
+							if ("1".equals(cmdStr)) {
 								sendBroadCast("nees.takePhoto_start");
 							}
-							if("2".equals(cmdStr)){
+							if ("2".equals(cmdStr)) {
 								sendBroadCast("nees.takePhoto_processing");
 							}
-							if("3".equals(cmdStr)){
+							if ("3".equals(cmdStr)) {
 								sendBroadCast("nees.sign");
 							}
-							if("4".equals(cmdStr)){
+							if ("4".equals(cmdStr)) {
 								sendBroadCast("nees.takePhotoCompleted");
 							}
+							
+							if("5".equals(cmdStr)){
+								sendBroadCast("nees.look_protocal");
+							}
 						}
-						
+
 					} catch (Exception e) {
-						Log.e(TAG, Thread.currentThread().getName() + "---->"+ "read receive error1" + e.getMessage());
+						Log.e(TAG, Thread.currentThread().getName() + "---->"
+								+ "read receive error1" + e.getMessage());
 						out.write("err".getBytes());
 						out.flush();
 						client.close();
@@ -202,31 +217,35 @@ public class MainService extends Service {
 				}
 				in.close();
 			} catch (Exception e) {
-				Log.e(TAG, Thread.currentThread().getName() + "---->"+ "read receive error2"+e.getMessage());
-				e.printStackTrace();
-			} finally{
+				Log.e(TAG, Thread.currentThread().getName() + "---->"
+						+ "read receive error2" + e.getMessage());
+				e.printStackTrace(); 
+			} finally {
 				try {
-					if(client!=null){
-						Log.v(TAG, Thread.currentThread().getName() + "---->"+ "client.close()");
-						client.close();
+					if (client != null) {
+						Log.v(TAG, Thread.currentThread().getName() + "---->"
+								+ "client.close()");
+						client.close();  
 					}
 				} catch (IOException e2) {
-					Log.e(TAG, Thread.currentThread().getName() + "---->"+ "read receive error3"+e2.getMessage());
+					Log.e(TAG, Thread.currentThread().getName() + "---->"
+							+ "read receive error3" + e2.getMessage());
 				}
 			}
 		}
 	}
+
 	/**
-	  * 读取操作命令
-	  * readCMDFromSocket
-	  * @Title: readCMDFromSocket
-	  * @Description: TODO
-	  * @param @param in
-	  * @param @return
-	  * @param @throws IOException    设定文件
-	  * @return String    返回类型
-	  * @throws
-	  */
+	 * 读取操作命令 readCMDFromSocket
+	 * 
+	 * @Title: readCMDFromSocket
+	 * @Description: TODO
+	 * @param @param in
+	 * @param @return
+	 * @param @throws IOException 设定文件
+	 * @return String 返回类型
+	 * @throws
+	 */
 	public String readCMDFromSocket(InputStream in) throws IOException {
 		int MAX_BUFFER_BYTES = 4096;
 		String msg = "";
@@ -238,71 +257,81 @@ public class MainService extends Service {
 		tempbuffer = null;
 		return msg;
 	}
+
 	/**
-	  * 发送线程
-	  * @ClassName: ThreadWriterSocket
-	  * @Description: TODO
-	  * @author yangchj
-	  * @date 2014-3-18 下午3:15:22
-	  */
-	public class ThreadWriterSocket implements Runnable{
+	 * 发送线程
+	 * 
+	 * @ClassName: ThreadWriterSocket
+	 * @Description: TODO
+	 * @author yangchj
+	 * @date 2014-3-18 下午3:15:22
+	 */
+	public class ThreadWriterSocket implements Runnable {
 		private Socket client;
-		BufferedOutputStream out;
+		BufferedOutputStream out;// 输出流
+
 		ThreadWriterSocket(Socket client) {
-			this.client=client;
+			this.client = client;
 			try {
 				out = new BufferedOutputStream(client.getOutputStream());
 			} catch (IOException e) {
-				Log.e(TAG, Thread.currentThread().getName() + "---->"+ "read receive error3"+e.getMessage());
+				Log.e(TAG, Thread.currentThread().getName() + "---->"
+						+ "read receive error3" + e.getMessage());
 				e.printStackTrace();
 			}
 		}
-		
-		public boolean sendflag(Map<String,Object> map) {
+
+		public boolean sendflag(Map<String, Object> map) {
 			boolean flag = false;
-			if(!map.isEmpty()){
-				if(map.get("flag").equals("revices")){
-					flag=true;
+			if (!map.isEmpty()) {
+				if (map.get("flag").equals("revices")) {
+					flag = true;
 				}
 			}
 			return flag;
 		}
+
 		@Override
 		public void run() {
-			Log.d(TAG, Thread.currentThread().getName() + "---->"+ "a client has connected to server!");
+			Log.d(TAG, Thread.currentThread().getName() + "---->"
+					+ "a client has connected to server!");
 			try {
 				ioThreadFlag = true;
 				while (ioThreadFlag) {
-					try{
-					if(!client.isConnected()){
-						break;
-					}
-					app=(MyApplication) getApplication();
-					Map<String,Object> map=app.getMap();
-					if (!map.isEmpty() && !sendflag(map)) {
-						String  jsonStr=JsonUtil.getResponse(map);
-						out.write(jsonStr.getBytes());
-						out.flush();
-						map.clear();
-					}
-					}catch(Exception e){
-						Log.e(TAG, Thread.currentThread().getName() + "---->"+ "read send  error1" + e.getMessage());
+					try {
+						if (!client.isConnected()) {
+							break;
+						}
+						app = (MyApplication) getApplication();
+						Map<String, Object> map = app.getMap();
+						if (!map.isEmpty() && !sendflag(map)) {
+							String jsonStr = JsonUtil.getResponse(map);
+							out.write(jsonStr.getBytes());
+							out.flush();
+							map.clear();
+						}
+					} catch (Exception e) {
+						Log.e(TAG, Thread.currentThread().getName() + "---->"
+								+ "read send  error1" + e.getMessage());
 						client.close();
 						break;
 					}
 				}
 				out.close();
 			} catch (Exception e) {
-				Log.e(TAG, Thread.currentThread().getName() + "---->"+ "read send error2"+e.getMessage());
+				Log.e(TAG, Thread.currentThread().getName() + "---->"
+						+ "read send error2" + e.getMessage());
 				e.printStackTrace();
-			}finally{
+			} finally {
 				try {
 					if (client != null) {
-						Log.v(TAG, Thread.currentThread().getName() + "---->"+ "client.close()");
+						Log.v(TAG, Thread.currentThread().getName() + "---->"
+								+ "client.close()");
 						client.close();
 					}
 				} catch (Exception e2) {
-					Log.e(TAG, Thread.currentThread().getName() + "---->"+ "read send error3"+e2.getMessage());
+					Log.e(TAG, Thread.currentThread().getName() + "---->"
+							+ "read send error3" + e2.getMessage());
 					e2.printStackTrace();
 				}
 			}

@@ -95,7 +95,7 @@ public class SignActivity extends Activity {
 						dataMap.put("FilePath", pathStr);
 						dataMap.put("Data", "");
 						dataMap.put("flag", "send");
-						dataMap.put("BoardcastType", "nees.autoTakePhoto");
+						dataMap.put("BoardcastType", "nees.signName");
 						Toast.makeText(mContext, "Ç©ÃûÍê³É", Toast.LENGTH_LONG).show();
 						popWindow.dismiss();
 					}

@@ -6,11 +6,13 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 public class BrowseProtocalActivity extends Activity {
 
 	private WebView webView;
+	private WebSettings webSettings;
 	private Context mContext;
 	private MyApplication app;
 	private static Map<String, Object> dataMap;
@@ -28,9 +30,17 @@ public class BrowseProtocalActivity extends Activity {
 		app=(MyApplication) getApplication();
 		dataMap=app.getMap();
 		webView=(WebView) findViewById(R.id.webView);
-		webView.getSettings().setJavaScriptEnabled(true);
-		webView.getSettings().setSupportZoom(true);
-		webView.getSettings().setBuiltInZoomControls(true);
+		webSettings=webView.getSettings();
+		//打开页面时， 自适应屏幕
+//		webSettings.setUseWideViewPort(true);
+//		webSettings.setLoadWithOverviewMode(true);
+		
+		//java代码可调用javascript代码
+		webSettings.setJavaScriptEnabled(true);
+		//使页面支持缩放
+		webSettings.setSupportZoom(true);
+		webSettings.setBuiltInZoomControls(true);
+		
 		webView.loadUrl(url);
 	}
 }

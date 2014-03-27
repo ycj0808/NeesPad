@@ -48,13 +48,13 @@
             android:finishOnTaskLaunch="true">
         </activity>
         
-        <activity android:name="com.neusoft.neespad.activity.BrowseProtocalActivity"
+        <!--<activity android:name="com.neusoft.neespad.activity.BrowseProtocalActivity"
              android:screenOrientation="landscape"
              android:configChanges="orientation|keyboardHidden|screenSize"
              android:launchMode="singleTask"
              android:finishOnTaskLaunch="true"
              >
-        </activity>
+        </activity>-->
         
         <service android:name="com.neusoft.neespad.service.MainService" android:exported="false">
               <intent-filter>

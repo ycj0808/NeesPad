@@ -89,6 +89,10 @@
                 <action android:name="nees.look_protocal" />
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="nees.back_home" />
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
         </receiver>
     </application>
 

@@ -204,6 +204,10 @@ public class MainService extends Service {
 							if("5".equals(cmdStr)){
 								sendBroadCast("nees.look_protocal");
 							}
+							
+							if("000".equals(cmdStr)){
+								sendBroadCast("nees.back_home");
+							}
 						}
 
 					} catch (Exception e) {

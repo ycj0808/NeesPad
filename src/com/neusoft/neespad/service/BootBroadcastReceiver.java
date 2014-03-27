@@ -17,7 +17,7 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
 	private static final String TAKE_PHOTO_PROCESSING = "nees.takePhoto_processing";// 照相
 	private static final String TAKE_PHOTO_COMPLETED = "nees.takePhotoCompleted";// 照相完成
 	private static final String LOOK_PROTOCAL = "nees.look_protocal";
-
+    private static final String BACK_HOME="nees.back_home";
 	@Override
 	public void onReceive(final Context context, Intent intent) {
 		// 通知完成
@@ -56,6 +56,12 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
 		// 查看协议
 		if (intent.getAction().equals(LOOK_PROTOCAL)) {
 			Intent bootStart = new Intent(context, BrowseProtocalActivity.class);
+			bootStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(bootStart);
+		}
+		
+		if(intent.getAction().equals(BACK_HOME)){
+			Intent bootStart = new Intent(context, MainActivity.class);
 			bootStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(bootStart);
 		}

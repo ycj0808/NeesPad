@@ -2,10 +2,13 @@ package com.neusoft.neespad.activity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.neusoft.neespad.service.MainService;
 import com.neusoft.neespad.view.AutoScrollViewPager;
 import com.neusoft.neespad.view.ImagePagerAdapter;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Window;
@@ -33,6 +36,8 @@ public class MainActivity extends Activity {
 		viewPager.setInterval(5000);
 		viewPager.setCycle(true);
 		viewPager.startAutoScroll();
+		Intent bootser = new Intent(MainActivity.this,MainService.class);
+		startService(bootser); 
 	}
 
 	public class MyOnPageChangeListener implements OnPageChangeListener {

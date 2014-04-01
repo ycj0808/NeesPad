@@ -51,7 +51,7 @@ public class MainActivityDone extends Activity {
 //		viewPager=(ViewPager) viewPictures.findViewById(R.id.guidePagers);
 		
 		setContentView(viewPictures);
-		setupJazziness(TransitionEffect.FlipVertical);
+		//setupJazziness(TransitionEffect.FlipVertical);
 //		viewPager.setAdapter(new NavigationPageAdapter());
 		//viewPager.setOnPageChangeListener(new NavigationPageChangeListener());
 //		startTask();

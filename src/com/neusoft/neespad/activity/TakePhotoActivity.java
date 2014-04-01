@@ -9,10 +9,13 @@ import com.neusoft.neespad.common.Util;
 import com.neusoft.neespad.common.Const;
 import com.neusoft.neespad.common.MyApplication;
 import com.neusoft.neespad.view.Preview;
+
+import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
+import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
 import android.os.Bundle;
@@ -57,24 +60,25 @@ public class TakePhotoActivity extends Activity {
 		Log.i("TAG", dataMap.toString());
 		preview = new Preview(this,
 				(SurfaceView) findViewById(R.id.surfaceView));
-		preview.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.MATCH_PARENT));
+//		preview.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+//				LayoutParams.MATCH_PARENT));
 		((FrameLayout) findViewById(R.id.preview)).addView(preview);
 		preview.setKeepScreenOn(true);
-		btn_camera=(Button) findViewById(R.id.btn_camera);
+		btn_camera = (Button) findViewById(R.id.btn_camera);
 		btn_camera.setOnClickListener(clickListener);
 	}
-	
-	//照相按钮监听事件
-	private OnClickListener clickListener=new OnClickListener() {
+
+	// 照相按钮监听事件
+	private OnClickListener clickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			camera.autoFocus(autoCallBack);
+			//setZoomIn();
 		}
 	};
-	
-	//自动对焦
-	public static AutoFocusCallback  autoCallBack=new AutoFocusCallback() {
+
+	// 自动对焦
+	public static AutoFocusCallback autoCallBack = new AutoFocusCallback() {
 		@Override
 		public void onAutoFocus(boolean success, Camera camera) {
 			camera.takePicture(shutterCallback, rawCallback, jpegCallback);
@@ -98,6 +102,31 @@ public class TakePhotoActivity extends Activity {
 			camera.release();
 			camera = null;
 		}
+	}
+
+	public static void setZoomIn() {
+		if (isSupportZoom()) {
+			try {
+				Parameters params = camera.getParameters();
+				final int MAX = params.getMaxZoom();
+				if(MAX!=0){
+					int zoomValue = params.getZoom();
+					zoomValue += 5;
+					params.setZoom(zoomValue);
+					camera.setParameters(params);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static boolean isSupportZoom() {
+		boolean isSupport = true;
+		if (camera.getParameters().isSmoothZoomSupported()) {
+			isSupport = false;
+		}
+		return isSupport;
 	}
 
 	private static void resetCam() {
@@ -159,7 +188,8 @@ public class TakePhotoActivity extends Activity {
 					dataMap.put("Data", "");
 					dataMap.put("flag", "send");
 					dataMap.put("BoardcastType", "nees.autoTakePhoto");
-					Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+					Toast.makeText(mContext, message, Toast.LENGTH_SHORT)
+							.show();
 				}
 			}
 			Log.d(TAG, "onPictureTaken - jpeg");

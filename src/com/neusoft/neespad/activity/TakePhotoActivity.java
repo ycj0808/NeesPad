@@ -188,7 +188,7 @@ public class TakePhotoActivity extends Activity {
 					dataMap.put("Data", "");
 					dataMap.put("flag", "send");
 					dataMap.put("BoardcastType", "nees.autoTakePhoto");
-					Toast.makeText(mContext, message, Toast.LENGTH_SHORT)
+					Toast.makeText(mContext, "≈ƒ’’≥…π¶", Toast.LENGTH_SHORT)
 							.show();
 				}
 			}

@@ -1,8 +1,10 @@
 ﻿package com.neusoft.neespad.service;
 
+import com.neusoft.neespad.activity.BigSurfaceActivity;
 import com.neusoft.neespad.activity.BrowseProtocalActivity;
 import com.neusoft.neespad.activity.MainActivity;
 import com.neusoft.neespad.activity.SignActivity;
+import com.neusoft.neespad.activity.SmallSurfaceActivity;
 import com.neusoft.neespad.activity.TakePhotoActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,6 +20,10 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
 	private static final String TAKE_PHOTO_COMPLETED = "nees.takePhotoCompleted";// 照相完成
 	private static final String LOOK_PROTOCAL = "nees.look_protocal";
     private static final String BACK_HOME="nees.back_home";
+    private static final String PHOTO_BIG_SURFACE="nees.big_surface";
+    private static final String PHOTO_SMALL_SURFACE="nees.small_surface";
+    private static final String PHOTO_BIG_PROCESSING="nees.take_big_photo_processing";//照证件照
+    private static final String PHOTO_SMALL_PROCESSING="nees.take_small_photo_processing";//照证件照
 	@Override
 	public void onReceive(final Context context, Intent intent) {
 		// 通知完成
@@ -47,6 +53,20 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
 				camera.autoFocus(TakePhotoActivity.autoCallBack);
 			}
 		}
+		
+		if(intent.getAction().equals(PHOTO_BIG_PROCESSING)){
+			Camera camera =BigSurfaceActivity.getCamera();
+			if(camera!=null){
+				camera.autoFocus(BigSurfaceActivity.autoCallBack);
+			}
+		}
+		if(intent.getAction().equals(PHOTO_SMALL_PROCESSING)){
+			Camera camera =SmallSurfaceActivity.getCamera();
+			if(camera!=null){
+				camera.autoFocus(SmallSurfaceActivity.autoCallBack);
+			}
+		}
+		
 		// 照相完成
 		if (intent.getAction().equals(TAKE_PHOTO_COMPLETED)) {
 			Intent bootStart = new Intent(context, MainActivity.class);
@@ -62,6 +82,18 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
 		
 		if(intent.getAction().equals(BACK_HOME)){
 			Intent bootStart = new Intent(context, MainActivity.class);
+			bootStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(bootStart);
+		}
+		
+		if(intent.getAction().equals(PHOTO_BIG_SURFACE)){
+			Intent bootStart = new Intent(context, BigSurfaceActivity.class);
+			bootStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(bootStart);
+		}
+		
+		if(intent.getAction().equals(PHOTO_SMALL_SURFACE)){
+			Intent bootStart = new Intent(context, SmallSurfaceActivity.class);
 			bootStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(bootStart);
 		}

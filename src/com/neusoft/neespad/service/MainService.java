@@ -204,7 +204,20 @@ public class MainService extends Service {
 							if("5".equals(cmdStr)){
 								sendBroadCast("nees.look_protocal");
 							}
-							
+							//
+							if("6".equals(cmdStr)){
+								sendBroadCast("nees.big_surface");
+							}
+							//调用照身份证
+							if("7".equals(cmdStr)){
+								sendBroadCast("nees.small_surface");
+							}
+							if("8".contains(cmdStr)){
+								sendBroadCast("nees.take_big_photo_processing");
+							}
+							if("9".contains(cmdStr)){
+								sendBroadCast("nees.take_small_photo_processing");
+							}
 							if("000".equals(cmdStr)){
 								sendBroadCast("nees.back_home");
 							}

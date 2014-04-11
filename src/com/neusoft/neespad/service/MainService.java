@@ -188,36 +188,43 @@ public class MainService extends Service {
 								+ "cmdStr---->" + cmdStr);
 						// 根据命令处理活动
 						if (!"".equals(cmdStr)) {
+							//调出拍摄画面
 							if ("1".equals(cmdStr)) {
 								sendBroadCast("nees.takePhoto_start");
 							}
+							//拍照的动作
 							if ("2".equals(cmdStr)) {
 								sendBroadCast("nees.takePhoto_processing");
 							}
+							//签名
 							if ("3".equals(cmdStr)) {
 								sendBroadCast("nees.sign");
 							}
+							//签名完成
 							if ("4".equals(cmdStr)) {
 								sendBroadCast("nees.takePhotoCompleted");
 							}
-							
+							//查看协议
 							if("5".equals(cmdStr)){
 								sendBroadCast("nees.look_protocal");
 							}
-							//
+							//拍摄照片的大取景框
 							if("6".equals(cmdStr)){
 								sendBroadCast("nees.big_surface");
 							}
-							//调用照身份证
+							//调用照身份证,小取景框
 							if("7".equals(cmdStr)){
 								sendBroadCast("nees.small_surface");
 							}
+							//大取景框时的拍摄动作
 							if("8".contains(cmdStr)){
 								sendBroadCast("nees.take_big_photo_processing");
 							}
+							//小取景框时的拍摄动作
 							if("9".contains(cmdStr)){
 								sendBroadCast("nees.take_small_photo_processing");
 							}
+							//返回主页
 							if("000".equals(cmdStr)){
 								sendBroadCast("nees.back_home");
 							}
@@ -318,7 +325,8 @@ public class MainService extends Service {
 					try {
 						if (!client.isConnected()) {
 							break;
-						}
+						} 
+						Thread.sleep(500);//休眠半秒钟,防止资源未准备好,而使socket中端,而无法连续发送图片资源
 						app = (MyApplication) getApplication();
 						Map<String, Object> map = app.getMap();
 						if (!map.isEmpty() && !sendflag(map)) {

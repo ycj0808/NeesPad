@@ -7,7 +7,10 @@ package com.neusoft.neespad.view;
 import java.io.IOException;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
 import android.util.Log;
@@ -24,18 +27,37 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback {
     Size mPreviewSize;
     List<Size> mSupportedPreviewSizes;
     Camera mCamera;
+    DrawImageView drawIV;
 
-    @SuppressWarnings("deprecation")
-	public Preview(Context context, SurfaceView sv) {
+    @SuppressLint("WrongCall")
+	@SuppressWarnings("deprecation")
+	public Preview(Context context, SurfaceView sv,DrawImageView dIV) {
         super(context);
 
         mSurfaceView = sv;
+        drawIV=dIV;
 //        addView(mSurfaceView);
-       
+        sv.setZOrderOnTop(false);
         mHolder = mSurfaceView.getHolder();
+        mHolder.setFormat(PixelFormat.TRANSPARENT);//设置透明
         mHolder.addCallback(this);
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        drawIV.onDraw(new Canvas());
     }
+    
+    @SuppressLint("WrongCall")
+   	@SuppressWarnings("deprecation")
+   	public Preview(Context context, SurfaceView sv) {
+           super(context);
+
+           mSurfaceView = sv;
+//           addView(mSurfaceView);
+           sv.setZOrderOnTop(false);
+           mHolder = mSurfaceView.getHolder();
+           mHolder.setFormat(PixelFormat.TRANSPARENT);//设置透明
+           mHolder.addCallback(this);
+           mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+       }
 
     public void setCamera(Camera camera) {
     	mCamera = camera;
@@ -45,7 +67,6 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback {
 
     		// get Camera parameters
     		Camera.Parameters params = mCamera.getParameters();
-
     		List<String> focusModes = params.getSupportedFocusModes();
     		if (focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
     			// set the focus mode
@@ -161,4 +182,7 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback {
     	}
     }
 
+    public Size getPreviewSize(){
+    	return mPreviewSize;
+    }
 }

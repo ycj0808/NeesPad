@@ -21,7 +21,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.neusoft.neespad.activity.MainActivity"
+            android:name="com.neusoft.neespad.activity.TakeBusyLicActivity"
             android:label="@string/app_name" 
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -62,13 +62,13 @@
             android:finishOnTaskLaunch="true">
         </activity>
         
-        <!--<activity android:name="com.neusoft.neespad.activity.BrowseProtocalActivity"
+        <activity android:name="com.neusoft.neespad.activity.BrowseProtocalActivity"
              android:screenOrientation="landscape"
              android:configChanges="orientation|keyboardHidden|screenSize"
              android:launchMode="singleTask"
              android:finishOnTaskLaunch="true"
              >
-        </activity>-->
+        </activity>
         
         <service android:name="com.neusoft.neespad.service.MainService" android:exported="false">
               <intent-filter>

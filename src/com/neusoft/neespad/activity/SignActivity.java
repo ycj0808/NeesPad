@@ -35,6 +35,7 @@ public class SignActivity extends Activity {
 	private Context mContext;
 	private Button btn_save;
 	private Button btn_cancel;
+	private Button btn_exit;
 	private LinearLayout layout;
 	private PaintView mPaintView;
 	private MyApplication app;
@@ -75,6 +76,7 @@ public class SignActivity extends Activity {
 	            popWindow.showAtLocation(findViewById(R.id.main), Gravity.CENTER,  0, 0);  
 	            btn_save=(Button) popview.findViewById(R.id.btn_save);
 	            btn_cancel=(Button) popview.findViewById(R.id.btn_cancel);
+	            btn_exit=(Button) popview.findViewById(R.id.btn_exit);
 	            btn_save.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -105,6 +107,12 @@ public class SignActivity extends Activity {
 					public void onClick(View view) {
 						mPaintView.clearAll();
 						mPaintView.resetState();
+					}
+				});
+	            btn_exit.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						popWindow.dismiss();
 					}
 				});
 			}

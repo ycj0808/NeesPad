@@ -104,14 +104,12 @@ public class TakePhotoActivity extends Activity {
 		}
 	}
 
-	public static void setZoomIn() {
+	public static void setZoomIn(int zoomValue) {
 		if (isSupportZoom()) {
 			try {
 				Parameters params = camera.getParameters();
 				final int MAX = params.getMaxZoom();
 				if(MAX!=0){
-					int zoomValue = params.getZoom();
-					zoomValue += 5;
 					params.setZoom(zoomValue);
 					camera.setParameters(params);
 				}

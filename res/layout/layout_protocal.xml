@@ -45,7 +45,9 @@
             android:layout_height="20dp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1" 
+            android:background="@drawable/btn_white_gray_bg"
             android:text="签名"
+            android:visibility="gone"
             />
     </LinearLayout>
 

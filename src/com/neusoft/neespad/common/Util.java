@@ -5,12 +5,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.ComponentName;
@@ -18,9 +22,20 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.WindowManager;
 
 public class Util {
+
+	public static int[] getScreenSize(Activity activity) {
+		WindowManager wm = activity.getWindowManager();
+		int width = wm.getDefaultDisplay().getWidth();
+		int height = wm.getDefaultDisplay().getHeight();
+		int size[] = { width, height };
+		return size;
+	}
+
 	public static byte[] decodeBitmap(String path) {
 		BitmapFactory.Options opts = new BitmapFactory.Options();
 		opts.inJustDecodeBounds = true;// 设置成了true,不占用内存，只获取bitmap宽高
@@ -171,8 +186,7 @@ public class Util {
 	}
 
 	/**
-	 * 判断当前应用程序处于前台还是后台 
-	 * isApplicationBroughtToBackground(这里用一句话描述这个方法的作用)
+	 * 判断当前应用程序处于前台还是后台 isApplicationBroughtToBackground(这里用一句话描述这个方法的作用)
 	 * @Title: isApplicationBroughtToBackground
 	 * @Description: TODO
 	 * @param @param context

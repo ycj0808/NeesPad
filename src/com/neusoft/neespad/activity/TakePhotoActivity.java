@@ -58,8 +58,7 @@ public class TakePhotoActivity extends Activity {
 		app = (MyApplication) getApplication();
 		dataMap = app.getMap();
 		Log.i("TAG", dataMap.toString());
-		preview = new Preview(this,
-				(SurfaceView) findViewById(R.id.surfaceView));
+		preview = new Preview(this,(SurfaceView) findViewById(R.id.surfaceView));
 //		preview.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
 //				LayoutParams.MATCH_PARENT));
 		((FrameLayout) findViewById(R.id.preview)).addView(preview);

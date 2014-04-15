@@ -9,18 +9,15 @@ import java.util.Map;
 import com.neusoft.neespad.common.Const;
 import com.neusoft.neespad.common.MyApplication;
 import com.neusoft.neespad.common.Util;
-import com.neusoft.neespad.view.DrawImageView;
 import com.neusoft.neespad.view.Preview;
+import com.neusoft.neespad.view.SVDraw;
 import com.neusoft.neespad.view.VerticalSeekBar;
 
 import android.R.integer;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
 import android.hardware.Camera.Parameters;
@@ -28,49 +25,49 @@ import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class TakeIDCardActivity extends Activity {
+public class TakeBusyCardActivity extends Activity {
 
-	private static Camera camera;
-	private SurfaceHolder mHolder;
-	private static Context mContext;
-	private static Preview preview;
 	private FrameLayout frameLayout;
 	private SurfaceView surfaceView;
-	private SurfaceHolder mySurfaceHolder = null;
-	private Button btn_camera;
+	private static Preview preview;
+	private static SVDraw svDraw;
 	private static final String TAG = "AutoJustActivity";
-	private static String fileName;
+	private static Camera camera;
+	private static int margin_left = 100;
+	private static int margin_right = 100;
+	private static int margin_top = 50;
+	private static int margin_bottom = 50;
+	private Button btn_camera;
 	private MyApplication app;
 	private static Map<String, Object> dataMap;
-	private static DrawImageView drawIV;
 	private VerticalSeekBar seekBar;
+	private static Context mContext;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.layout_id_card_busy_lic);
+		setContentView(R.layout.layout_draw_rect);
 		initView();
 		setListener();
 	}
 
 	/**
-	 * 初始化元素控件 initView(这里用一句话描述这个方法的作用)
-	 * 
+	 * 初始化元素控件 initView
 	 * @Title: initView
 	 * @Description: TODO
 	 * @param 设定文件
@@ -78,58 +75,52 @@ public class TakeIDCardActivity extends Activity {
 	 * @throws
 	 */
 	private void initView() {
-		mContext=this;
 		app = (MyApplication) getApplication();
 		dataMap = app.getMap();
+		mContext=this;
+		frameLayout = (FrameLayout) findViewById(R.id.preview);
 		surfaceView = (SurfaceView) findViewById(R.id.my_surfaceView);
-		drawIV = (DrawImageView) findViewById(R.id.draw_IV);
+		svDraw = (SVDraw) findViewById(R.id.svDraw);
 		surfaceView.setZOrderOnTop(false);
 		preview = new Preview(this, surfaceView);
-		preview.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
-		frameLayout = (FrameLayout) findViewById(R.id.preview);
+		preview.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT));
 		frameLayout.addView(preview);
 		preview.setKeepScreenOn(true);
-		int size[]=Util.getScreenSize(TakeIDCardActivity.this);
-		Toast.makeText(mContext, "width:"+size[0]+"  "+"height:"+size[1], Toast.LENGTH_LONG).show();
-		if(size[0]<900){
-			setDraw(150,80);
-		}else{
-			setDraw(250, 150);
-		}
-		btn_camera = (Button) findViewById(R.id.btn_camera);
+		svDraw.setVisibility(View.VISIBLE);
+		setMarginParams();
+		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+				LinearLayout.LayoutParams.WRAP_CONTENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+		lp.setMargins(margin_left, margin_top, margin_right, margin_bottom);
+		svDraw.setLayoutParams(lp);
+		btn_camera=(Button) findViewById(R.id.btn_camera);
 		seekBar=(VerticalSeekBar) findViewById(R.id.seekBar);
 	}
-
-	@SuppressLint("WrongCall")
-	private void setDraw(int width,int height){
-		drawIV.setBeginLeft(width);
-		drawIV.setBeginTop(height);
-		drawIV.setOtherLeft(100);
-		drawIV.onDraw(new Canvas());
-	}
+	
 	/**
-	 * 设置监听事件 setListener(这里用一句话描述这个方法的作用)
-	 * @Title: setListener
-	 * @Description: TODO
-	 * @param 设定文件
-	 * @return void 返回类型
-	 * @throws
-	 */
-	private void setListener() {
-		//相机拍照的监听事件
+	  * 设置监听事件
+	  * setListener(这里用一句话描述这个方法的作用)
+	  * @Title: setListener
+	  * @Description: TODO
+	  * @param          设定文件
+	  * @return void    返回类型
+	  * @throws
+	  */
+	private void setListener(){
+		//拍照
 		btn_camera.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				camera.autoFocus(new AutoFocusCallback() {
 					@Override
-					public void onAutoFocus(boolean flag, Camera camera) {
-						camera.takePicture(shutterCallback, rawCallback,
-								jpegCallback);
+					public void onAutoFocus(boolean success, Camera camera) {
+						camera.takePicture(shutterCallback, rawCallback, jpegCallback);
 					}
 				});
 			}
 		});
-		//seekBar监听事件
+		//调整焦距 
 		seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
@@ -179,6 +170,7 @@ public class TakeIDCardActivity extends Activity {
 			camera.takePicture(shutterCallback, rawCallback, jpegCallback);
 		}
 	};
+
 	public static ShutterCallback shutterCallback = new ShutterCallback() {
 		public void onShutter() {
 			Log.d(TAG, "onShutter'd");
@@ -197,7 +189,7 @@ public class TakeIDCardActivity extends Activity {
 			String str="";
 			String  filePathString="";
 			if (data != null) {
-				filePathString=saveIDCard(data,400);
+				filePathString=saveImage(data);
 				try {
 					File file=new File(filePathString);
 					if(file!=null&&file.exists()){
@@ -220,43 +212,39 @@ public class TakeIDCardActivity extends Activity {
 						Toast.makeText(mContext, "拍照成功", Toast.LENGTH_SHORT).show();
 					}
 				} catch (Exception e) {
+					Log.e(TAG, e.getMessage());
+					
 				}
 			}
 			resetCam();
-			Log.d(TAG, "onPictureTaken - jpeg");
 		}
 	};
 
 	/**
-	 * 保存身份证照片 saveIDCard
-	 * @Title: saveIDCard
+	 * 保存图片 saveImage(这里用一句话描述这个方法的作用)
+	 * 
+	 * @Title: saveImage
 	 * @Description: TODO
-	 * @param 设定文件
-	 * @return void 返回类型
+	 * @param @param data
+	 * @param @return 设定文件
+	 * @return String 返回类型
 	 * @throws
 	 */
-	private static String saveIDCard(byte[] data,int scaleWidth) {
+	private static String saveImage(byte[] data) {
 		String filePath = "";
 		Bitmap mBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);// data是字节数据，将其解析成位图
 		Bitmap sizeBitmap = Bitmap.createScaledBitmap(mBitmap,
 				preview.getPreviewSize().width,
 				preview.getPreviewSize().height, true);
-		int left = drawIV.getBeginLeft();
-		int top = drawIV.getBeginTop();
-		int right = drawIV.getEndRight();
-		int bottom = drawIV.getEndBottom();
-		float rate=(float) ((sizeBitmap.getWidth()*1.0)/(drawIV.getScrWidth()*1.0));//比例
-		float hRate=(float) ((sizeBitmap.getHeight()*1.0)/(drawIV.getScrHeight()*1.0));//纵向比例
-		Bitmap rectBitmap = Bitmap.createBitmap(sizeBitmap, left, top,(int)((right-left)*rate),
-				(int)((bottom-top)*hRate));
+
+		Bitmap rectBitmap = Bitmap.createBitmap(sizeBitmap, margin_left,
+				margin_top, svDraw.getWidth(), svDraw.getHeight());
 		if (rectBitmap != null) {
-			float scaleRate=(float) ((bottom-top)*1.0/(right-left)*1.0);
-			int scaleHeight=(int)(scaleRate*scaleWidth);
-			Bitmap scaleBitmap=Bitmap.createScaledBitmap(rectBitmap, scaleWidth,scaleHeight,true);
-			filePath=saveBitmapToPicture(scaleBitmap);
+			filePath=saveBitmapToPicture(rectBitmap);
 		}
 		return filePath;
 	}
+	
 	/**
 	 * 把bitmap保存为图片 saveBitmapToPicture(这里用一句话描述这个方法的作用)
 	 * @Title: saveBitmapToPicture
@@ -266,6 +254,7 @@ public class TakeIDCardActivity extends Activity {
 	 * @throws
 	 */
 	private static String saveBitmapToPicture(Bitmap bitmap) {
+		String fileName="";
 		FileOutputStream outStream = null;
 		try {
 			File fileDir = new File(Const.tempPath);
@@ -287,6 +276,37 @@ public class TakeIDCardActivity extends Activity {
 		}
 		return fileName;
 	}
+
+	/**
+	  * 设置margin 参数
+	  * setMarginParams(这里用一句话描述这个方法的作用)
+	  * @Title: setMarginParams
+	  * @Description: TODO
+	  * @param     设定文件
+	  * @return void    返回类型
+	  * @throws
+	  */
+	private void setMarginParams(){
+		int size[]=Util.getScreenSize(TakeBusyCardActivity.this);
+		if(size[0]<900){
+			margin_left=margin_right=50;
+			margin_top=margin_bottom=40;
+		}
+	}
+	
+	/**
+	  * 获取相机
+	  * getCamera(这里用一句话描述这个方法的作用)
+	  * @Title: getCamera
+	  * @Description: TODO
+	  * @param @return    设定文件
+	  * @return Camera    返回类型
+	  * @throws
+	  */
+	public static Camera getCamera() {
+		return camera;
+	}
+	
 	/**
 	  * 设置缩放
 	  * setZoomIn
@@ -310,6 +330,7 @@ public class TakeIDCardActivity extends Activity {
 			}
 		}
 	}
+	
 	/**
 	  * 判断是否支持缩放
 	  * isSupportZoom
@@ -326,6 +347,7 @@ public class TakeIDCardActivity extends Activity {
 		}
 		return isSupport;
 	}
+	
 	/**
 	  * 发送图片
 	  * sendPhoto
@@ -359,17 +381,5 @@ public class TakeIDCardActivity extends Activity {
 		}
 		retStr = flag + "~" + message + "~" + md5Str + "~" + strPathDetail;
 		return retStr;
-	}
-	/**
-	  * 获取相机
-	  * getCamera(这里用一句话描述这个方法的作用)
-	  * @Title: getCamera
-	  * @Description: TODO
-	  * @param @return    设定文件
-	  * @return Camera    返回类型
-	  * @throws
-	  */
-	public static Camera getCamera() {
-		return camera;
 	}
 }

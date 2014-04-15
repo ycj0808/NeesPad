@@ -5,6 +5,10 @@ import com.neusoft.neespad.activity.BrowseProtocalActivity;
 import com.neusoft.neespad.activity.MainActivity;
 import com.neusoft.neespad.activity.SignActivity;
 import com.neusoft.neespad.activity.SmallSurfaceActivity;
+import com.neusoft.neespad.activity.TakeBusyCardActivity;
+import com.neusoft.neespad.activity.TakeBusyLicActivity;
+import com.neusoft.neespad.activity.TakeCardActivity;
+import com.neusoft.neespad.activity.TakeIDCardActivity;
 import com.neusoft.neespad.activity.TakePhotoActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -55,15 +59,15 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
 		}
 		
 		if(intent.getAction().equals(PHOTO_BIG_PROCESSING)){
-			Camera camera =BigSurfaceActivity.getCamera();
+			Camera camera =TakeBusyCardActivity.getCamera();
 			if(camera!=null){
-				camera.autoFocus(BigSurfaceActivity.autoCallBack);
+				camera.autoFocus(TakeBusyCardActivity.autoCallBack);
 			}
 		}
 		if(intent.getAction().equals(PHOTO_SMALL_PROCESSING)){
-			Camera camera =SmallSurfaceActivity.getCamera();
+			Camera camera =TakeCardActivity.getCamera();
 			if(camera!=null){
-				camera.autoFocus(SmallSurfaceActivity.autoCallBack);
+				camera.autoFocus(TakeCardActivity.autoCallBack);
 			}
 		}
 		
@@ -87,13 +91,13 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
 		}
 		
 		if(intent.getAction().equals(PHOTO_BIG_SURFACE)){
-			Intent bootStart = new Intent(context, BigSurfaceActivity.class);
+			Intent bootStart = new Intent(context, TakeBusyCardActivity.class);
 			bootStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(bootStart);
 		}
 		
 		if(intent.getAction().equals(PHOTO_SMALL_SURFACE)){
-			Intent bootStart = new Intent(context, SmallSurfaceActivity.class);
+			Intent bootStart = new Intent(context, TakeCardActivity.class);
 			bootStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(bootStart);
 		}

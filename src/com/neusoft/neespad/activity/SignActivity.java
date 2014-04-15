@@ -15,11 +15,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Camera.Size;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -61,12 +68,14 @@ public class SignActivity extends Activity {
 		webView.getSettings().setBuiltInZoomControls(true);
 		webView.loadUrl(url);
 		btn_sign.setOnClickListener(new OnClickListener() {
+			@SuppressWarnings("deprecation")
 			@Override
 			public void onClick(View v) {
 				LayoutInflater layoutInflater = (LayoutInflater)(SignActivity.this).getSystemService(LAYOUT_INFLATER_SERVICE); 
-				 // 获取自定义布局文件poplayout.xml的视图  
+				// 获取自定义布局文件poplayout.xml的视图  
 	            View popview = layoutInflater.inflate(R.layout.poplayout, null);  
-	            popWindow = new PopupWindow(popview,LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);  
+	            int size[]=Util.getScreenSize(SignActivity.this);
+	            popWindow = new PopupWindow(popview,size[0]-100,size[1]-100);  
 	            layout=(LinearLayout) popview.findViewById(R.id.layout_draw);
 	            mPaintView = new PaintView(mContext);
 	            layout.removeAllViews();
@@ -74,6 +83,11 @@ public class SignActivity extends Activity {
 	            initCallBack();
 	            //规定弹窗的位置  
 	            popWindow.showAtLocation(findViewById(R.id.main), Gravity.CENTER,  0, 0);  
+	            
+//	            registerForContextMenu(mPaintView);
+//	            registerForContextMenu(layout);
+	            registerForContextMenu(popview);
+	            
 	            btn_save=(Button) popview.findViewById(R.id.btn_save);
 	            btn_cancel=(Button) popview.findViewById(R.id.btn_cancel);
 	            btn_exit=(Button) popview.findViewById(R.id.btn_exit);
@@ -168,5 +182,36 @@ public class SignActivity extends Activity {
 		}
 		retStr = flag + "~" + message + "~" + md5Str + "~" + strPathDetail;
 		return retStr;
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {
+		MenuInflater mInflater = getMenuInflater(); 
+		mInflater.inflate(R.menu.menu_item,menu);
+		super.onCreateContextMenu(menu, v, menuInfo);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.save:
+			Toast.makeText(mContext, "save", Toast.LENGTH_LONG).show();
+			break;
+		case R.id.clear:
+			Toast.makeText(mContext, "clear", Toast.LENGTH_LONG).show();
+			break;
+		case R.id.cancel:
+			Toast.makeText(mContext, "cancel", Toast.LENGTH_LONG).show();
+			break;
+		}
+		return super.onContextItemSelected(item);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if(popWindow!=null&&popWindow.isShowing()){
+			popWindow.dismiss();
+		}
 	}
 }

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.neusoft.neespad.common.Const;
 import com.neusoft.neespad.common.MyApplication;
+import com.neusoft.neespad.common.Util;
 import com.neusoft.neespad.view.DrawImageView;
 import com.neusoft.neespad.view.Preview;
 import com.neusoft.neespad.view.VerticalSeekBar;
@@ -37,6 +38,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
+import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class TakeBusyLicActivity extends Activity {
@@ -76,12 +78,13 @@ public class TakeBusyLicActivity extends Activity {
 	 */
 	private void initView() {
 		mContext=this;
-		surfaceView = (SurfaceView) findViewById(R.id.mysurfaceView);
-		drawIV = (DrawImageView) findViewById(R.id.drawIV);
+		app = (MyApplication) getApplication();
+		dataMap = app.getMap();
+		surfaceView = (SurfaceView) findViewById(R.id.my_surfaceView);
+		drawIV = (DrawImageView) findViewById(R.id.draw_IV);
 		surfaceView.setZOrderOnTop(false);
 		preview = new Preview(this, surfaceView);
-		preview.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.MATCH_PARENT));
+		preview.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
 		frameLayout = (FrameLayout) findViewById(R.id.preview);
 		frameLayout.addView(preview);
 		preview.setKeepScreenOn(true);
@@ -112,8 +115,7 @@ public class TakeBusyLicActivity extends Activity {
 				camera.autoFocus(new AutoFocusCallback() {
 					@Override
 					public void onAutoFocus(boolean flag, Camera camera) {
-						camera.takePicture(shutterCallback, rawCallback,
-								jpegCallback);
+						camera.takePicture(shutterCallback, rawCallback,jpegCallback);
 					}
 				});
 
@@ -125,12 +127,9 @@ public class TakeBusyLicActivity extends Activity {
 			public void onStopTrackingTouch(SeekBar seekBar) {
 				
 			}
-			
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
-				
 			}
-			
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
 				setZoomIn(progress);
@@ -192,23 +191,46 @@ public class TakeBusyLicActivity extends Activity {
 	public static PictureCallback jpegCallback = new PictureCallback() {
 		@Override
 		public void onPictureTaken(byte[] data, Camera camera) {
+			String str="";
+			String filePathString="";
 			if (data != null) {
-				saveIDCard(data,600);
+				filePathString=saveIDCard(data,600);
+				File file=new File(filePathString);
+				if(file!=null&&file.exists()){
+					try {
+						str=sendPhoto(file);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					String mess[] = str.split("~");
+					String flag = mess[0];
+					String message = mess[1];
+					String[] md5Str = { mess[2] };
+					String filePath = mess[3].substring(1, mess[3].length());
+					String[] pathStr = { filePath };
+					dataMap.put("MD5Str", md5Str);
+					dataMap.put("FilePath", pathStr);
+					dataMap.put("Data", "");
+					dataMap.put("flag", "send");
+					dataMap.put("BoardcastType", "nees.autoTakePhoto");
+					Toast.makeText(mContext, "拍照成功", Toast.LENGTH_SHORT).show();
+				}
 			}
 			resetCam();
+			Log.d(TAG, "onPictureTaken - jpeg");
 		}
 	};
 
 	/**
 	 * 保存身份证照片 saveIDCard
-	 * 
 	 * @Title: saveIDCard
 	 * @Description: TODO
 	 * @param 设定文件
 	 * @return void 返回类型
 	 * @throws
 	 */
-	private static void saveIDCard(byte[] data,int scaleWidth) {
+	private static String saveIDCard(byte[] data,int scaleWidth) {
+		String filePath = null;
 		Bitmap mBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);// data是字节数据，将其解析成位图
 		Bitmap sizeBitmap = Bitmap.createScaledBitmap(mBitmap,
 				preview.getPreviewSize().width,
@@ -217,7 +239,6 @@ public class TakeBusyLicActivity extends Activity {
 		int top = drawIV.getBeginTop();
 		int right = drawIV.getEndRight();
 		int bottom = drawIV.getEndBottom();
-		
 		float rate=(float) ((sizeBitmap.getWidth()*1.0)/(drawIV.getScrWidth()*1.0));//比例
 		float hRate=(float) ((sizeBitmap.getHeight()*1.0)/(drawIV.getScrHeight()*1.0));//纵向比例
 		Bitmap rectBitmap = Bitmap.createBitmap(sizeBitmap, left, top,(int)((right-left)*rate),
@@ -226,19 +247,19 @@ public class TakeBusyLicActivity extends Activity {
 			float scaleRate=(float) ((bottom-top)*1.0/(right-left)*1.0);
 			int scaleHeight=(int)(scaleRate*scaleWidth);
 			Bitmap scaleBitmap=Bitmap.createScaledBitmap(rectBitmap, scaleWidth,scaleHeight,true);
-			saveBitmapToPicture(scaleBitmap);
+			filePath=saveBitmapToPicture(scaleBitmap);
 		}
+		return filePath;
 	}
 	/**
 	 * 把bitmap保存为图片 saveBitmapToPicture(这里用一句话描述这个方法的作用)
-	 * 
 	 * @Title: saveBitmapToPicture
 	 * @Description: TODO
 	 * @param @param bitmap 设定文件
 	 * @return void 返回类型
 	 * @throws
 	 */
-	private static void saveBitmapToPicture(Bitmap bitmap) {
+	private static String saveBitmapToPicture(Bitmap bitmap) {
 		FileOutputStream outStream = null;
 		try {
 			File fileDir = new File(Const.tempPath);
@@ -255,11 +276,21 @@ public class TakeBusyLicActivity extends Activity {
 			Log.i("TakeIDCardActivity", "保存图片成功");
 		} catch (Exception e) {
 			Log.i("TakeIDCardActivity", "保存图片失败");
+			fileName="";
 			e.printStackTrace();
 		}
+		return fileName;
 	}
 
-	
+	/**
+	  * 镜头缩放
+	  * setZoomIn(这里用一句话描述这个方法的作用)
+	  * @Title: setZoomIn
+	  * @Description: TODO
+	  * @param @param zoomValue    设定文件
+	  * @return void    返回类型
+	  * @throws
+	  */
 	public static void setZoomIn(int zoomValue) {
 		if (isSupportZoom()) {
 			try {
@@ -274,12 +305,68 @@ public class TakeBusyLicActivity extends Activity {
 			}
 		}
 	}
-
+	/**
+	  * 判断是否缩放
+	  * isSupportZoom(这里用一句话描述这个方法的作用)
+	  * @Title: isSupportZoom
+	  * @Description: TODO
+	  * @param @return    设定文件
+	  * @return boolean    返回类型
+	  * @throws
+	  */
 	public static boolean isSupportZoom() {
 		boolean isSupport = true;
 		if (camera.getParameters().isSmoothZoomSupported()) {
 			isSupport = false;
 		}
 		return isSupport;
+	}
+	
+	/**
+	  * 发送图片
+	  * sendPhoto
+	  * @Title: sendPhoto
+	  * @Description: TODO
+	  * @param @param file
+	  * @param @throws Exception    设定文件
+	  * @return String    返回类型
+	  * @throws
+	  */
+	public static String sendPhoto(File file) throws Exception {
+		String md5Str = "";
+		String strPathDetail = "";
+		String flag = "";
+		String message = "";
+		String retStr = "";
+		if (file.exists()) {
+			strPathDetail = file.getPath();
+			try {
+				md5Str = Util.getMd5Value(strPathDetail);
+				flag = "ok";
+				message = "受理成功！";
+			} catch (IOException e) {
+				flag = "no";
+				message = "受理失败！";
+				e.printStackTrace();
+			}
+		} else {
+			flag = "no";
+			message = "受理失败！";
+		}
+		retStr = flag + "~" + message + "~" + md5Str + "~" + strPathDetail;
+		return retStr;
+	}
+	
+	/**
+	  * 获取相机
+	  * getCamera(这里用一句话描述这个方法的作用)
+	  * @Title: getCamera
+	  * @Description: TODO
+	  * @param @return    设定文件
+	  * @return Camera    返回类型
+	  * @throws
+	  */
+	public static Camera getCamera() {
+		return camera;
 	}
 }

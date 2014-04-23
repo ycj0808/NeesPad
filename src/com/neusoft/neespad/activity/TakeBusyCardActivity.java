@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
 
+import com.neusoft.neespad.R;
 import com.neusoft.neespad.common.Const;
 import com.neusoft.neespad.common.MyApplication;
 import com.neusoft.neespad.common.Util;
@@ -46,10 +47,10 @@ public class TakeBusyCardActivity extends Activity {
 	private static SVDraw svDraw;
 	private static final String TAG = "AutoJustActivity";
 	private static Camera camera;
-	private static int margin_left = 100;
-	private static int margin_right = 100;
-	private static int margin_top = 50;
-	private static int margin_bottom = 50;
+	private static int margin_left = 120;
+	private static int margin_right = 120;
+	private static int margin_top = 70;
+	private static int margin_bottom = 70;
 	private Button btn_camera;
 	private MyApplication app;
 	private static Map<String, Object> dataMap;
@@ -268,9 +269,9 @@ public class TakeBusyCardActivity extends Activity {
 			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
 			bos.flush();
 			bos.close();
-			Log.i("TakeIDCardActivity", "±£´æÍ¼Æ¬³É¹¦");
+			Log.i("TakeBusyCardActivity", "±£´æÍ¼Æ¬³É¹¦");
 		} catch (Exception e) {
-			Log.i("TakeIDCardActivity", "±£´æÍ¼Æ¬Ê§°Ü");
+			Log.i("TakeBusyCardActivity", "±£´æÍ¼Æ¬Ê§°Ü");
 			fileName="";
 			e.printStackTrace();
 		}
@@ -289,8 +290,8 @@ public class TakeBusyCardActivity extends Activity {
 	private void setMarginParams(){
 		int size[]=Util.getScreenSize(TakeBusyCardActivity.this);
 		if(size[0]<900){
-			margin_left=margin_right=50;
-			margin_top=margin_bottom=40;
+			margin_left=margin_right=100;
+			margin_top=margin_bottom=50;
 		}
 	}
 	

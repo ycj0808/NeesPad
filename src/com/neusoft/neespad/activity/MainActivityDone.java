@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import com.neusoft.neespad.R;
 import com.neusoft.neespad.common.Const;
 import com.neusoft.neespad.service.MainService;
 import com.neusoft.neespad.view.JazzyViewPager;

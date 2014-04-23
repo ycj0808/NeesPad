@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
+
+import com.neusoft.neespad.R;
 import com.neusoft.neespad.common.Util;
 import com.neusoft.neespad.common.Const;
 import com.neusoft.neespad.common.MyApplication;

@@ -3,6 +3,7 @@ package com.neusoft.neespad.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.neusoft.neespad.R;
 import com.neusoft.neespad.service.MainService;
 import com.neusoft.neespad.view.AutoScrollViewPager;
 import com.neusoft.neespad.view.ImagePagerAdapter;

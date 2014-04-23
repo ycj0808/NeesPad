@@ -1,8 +1,7 @@
 package com.neusoft.neespad.view;
 
-import com.neusoft.neespad.activity.R;
+import com.neusoft.neespad.R;
 import com.neusoft.neespad.common.Util;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;

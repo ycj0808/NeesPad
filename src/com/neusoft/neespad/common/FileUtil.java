@@ -172,8 +172,8 @@ public class FileUtil {
 	 * @return void 返回类型
 	 * @throws
 	 */
-	public static void copyFileToAsset(Context context, String fileName,
-			String to_fileDir) {
+	public static boolean copyFileFromAssetToSdCard(Context context, String fileName,String to_fileDir) {
+		boolean flag=false;
 		File outFile = new File(to_fileDir, fileName);
 		InputStream in = null;
 		OutputStream out = null;
@@ -186,16 +186,22 @@ public class FileUtil {
 				while ((len = in.read(buf)) > 0) {
 					out.write(buf, 0, len);
 				}
+				flag=true;
 			} catch (IOException e) {
+				flag=false;
 				e.printStackTrace();
 			} finally {
 				try {
 					in.close();
 					out.close();
 				} catch (IOException e) {
+					flag=false;
 					e.printStackTrace();
 				}
 			}
+		}else{
+			flag=true;
 		}
+		return flag;
 	}
 }

@@ -17,7 +17,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.neusoft.neespad.activity.R;
+import com.neusoft.neespad.R;
 import com.nineoldandroids.view.ViewHelper;
 
 public class JazzyViewPager extends ViewPager {

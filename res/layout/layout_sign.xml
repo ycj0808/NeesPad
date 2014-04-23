@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     android:orientation="horizontal" >
 
-    <WebView
+    <com.neusoft.neespad.view.MyWebView
         android:id="@+id/webView"
         android:layout_width="0dip"
         android:layout_height="match_parent"
-        android:layout_weight="5" />
+        android:layout_weight="8" />
 
     <LinearLayout
         android:id="@+id/layout"
@@ -39,15 +39,52 @@
             android:layout_height="0dip"
             android:layout_weight="4.5" 
             android:background="@color/gray"/>
+      <LinearLayout android:id="@+id/layout_btn_container"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:layout_weight="1" 
+          android:layout_gravity="center_horizontal"
+          >
         <Button
+            android:id="@+id/btn_magnifier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/btn_white_gray_bg"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_marginRight="15dp"
+            android:text="放大镜"
+            />
+         <Button
             android:id="@+id/btn_sign"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1" 
+            android:layout_height="wrap_content"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_gravity="center_vertical"
             android:background="@drawable/btn_white_gray_bg"
+            android:layout_marginLeft="15dp"
             android:text="签名"
             />
+         <ImageButton
+            android:id="@+id/img_font_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/minus_btn_bg"
+            android:layout_marginLeft="15dp"
+            android:contentDescription="字体缩小"
+            />
+         <ImageButton
+            android:id="@+id/img_font_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/add_btn_bg"
+            android:layout_marginLeft="15dp"
+            android:contentDescription="字体放大"
+            />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

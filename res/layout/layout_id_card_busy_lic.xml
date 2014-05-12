@@ -34,7 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="200dp" 
             android:layout_marginTop="20dp"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/btn_camera"
@@ -44,7 +45,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="50dp"
-            android:background="@drawable/btn_camera" />
+            android:background="@drawable/btn_camera" 
+            android:visibility="gone"/>
     </RelativeLayout>
     </FrameLayout>
 </RelativeLayout>

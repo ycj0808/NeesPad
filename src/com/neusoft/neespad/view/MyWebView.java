@@ -6,12 +6,12 @@ import android.graphics.Matrix;
 import android.graphics.Path;
 import android.graphics.Path.Direction;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.webkit.WebView;
 import android.widget.ImageView;
 
 /**
  * 自定义WebView
- * 
  * @ClassName: MyWebView
  * @Description: TODO
  * @author yangchj
@@ -23,6 +23,7 @@ public class MyWebView extends WebView{
 	private Path mPath = new Path();
 	private Matrix matrix = new Matrix();
 	private Bitmap mBitmap = null;
+	private ScrollChangedCallback scc;
 	// 放大镜的半径
 	private static final int RADIUS = 80;
 	// 放大倍数
@@ -64,10 +65,18 @@ public class MyWebView extends WebView{
 
 			// 剪切
 			canvas.translate(mCurrentX - RADIUS * 2, mCurrentY - RADIUS * 2);// 将整个canvas水平移动x，垂直移动y距离
+			
+			Log.i("TAG", "这是X坐标1"+(mCurrentX - RADIUS * 2));
+			
+			Log.i("TAG", "这是Y坐标1"+(mCurrentY - RADIUS * 2));
+			
 			canvas.clipPath(mPath);
 			// 画放大后的图
 			canvas.translate(RADIUS - mCurrentX * FACTOR, RADIUS - mCurrentY* FACTOR);
 			
+			Log.i("TAG", "这是X坐标2"+(RADIUS - mCurrentX * FACTOR));
+			
+			Log.i("TAG", "这是Y坐标2"+(RADIUS - mCurrentY* FACTOR));
 			canvas.drawBitmap(mBitmap, matrix, null);
 		}
 	}
@@ -82,5 +91,30 @@ public class MyWebView extends WebView{
 			mBitmap = null;
 		}
 	}
+	
+	@Override
+	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+		super.onScrollChanged(l, t, oldl, oldt);
+//		int height=this.getContentHeight();
+		int curY=this.getScrollY();
+		scc.scrollChanged(curY);
+//		if(curY+1000>height){
+//			scc.scrollChanged(curY);
+//		}
+	}
 
+	/**
+	 * 滑动进度条
+	 * @author Administrator
+	 */
+	public interface ScrollChangedCallback{
+		public void scrollChanged(int curY);
+	}
+	/**
+	 * 注册回调接口 
+	 * @param sc
+	 */
+	public void registerScrollChangedCallback(ScrollChangedCallback sc){
+		this.scc=sc;
+	}
 }

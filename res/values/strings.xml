@@ -8,6 +8,9 @@
     <string name="menu_save">保存</string>
     <string name="menu_clear">清除</string>
     <string name="menu_cancel">取消</string> 
+    <string name="menu_preview">预览</string>
+    
+    <string name="pop_sign_tip">亲,请至少写&quot;签名处&quot;那么大的字哦~</string>
     
     <string-array name="jazzy_effects">
         <item>Standard</item>

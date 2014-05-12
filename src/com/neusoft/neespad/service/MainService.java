@@ -217,12 +217,15 @@ public class MainService extends Service {
 								sendBroadCast("nees.small_surface");
 							}
 							//大取景框时的拍摄动作
-							if("8".contains(cmdStr)){
+							if("8".equals(cmdStr)){
 								sendBroadCast("nees.take_big_photo_processing");
 							}
 							//小取景框时的拍摄动作
-							if("9".contains(cmdStr)){
+							if("9".equals(cmdStr)){
 								sendBroadCast("nees.take_small_photo_processing");
+							}
+							if("10".equals(cmdStr)){
+								sendBroadCast("nees.look_report");
 							}
 							//返回主页
 							if("000".equals(cmdStr)){

@@ -36,7 +36,7 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback {
 
         mSurfaceView = sv;
         drawIV=dIV;
-//        addView(mSurfaceView);
+//      addView(mSurfaceView);
         sv.setZOrderOnTop(false);
         mHolder = mSurfaceView.getHolder();
         mHolder.setFormat(PixelFormat.TRANSPARENT);//…Ë÷√Õ∏√˜

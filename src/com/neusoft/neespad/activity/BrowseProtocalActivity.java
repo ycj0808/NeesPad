@@ -71,6 +71,7 @@ public class BrowseProtocalActivity extends Activity {
 			}
 		}).start();
 		setListener();
+		
 	}
 
 	private void setListener() {

@@ -9,81 +9,100 @@
         android:id="@+id/webView"
         android:layout_width="0dip"
         android:layout_height="match_parent"
-        android:layout_weight="8" />
+        android:layout_weight="17" 
+        />
 
     <LinearLayout
         android:id="@+id/layout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="3"
+        android:layout_weight="2"
         android:orientation="vertical" >
 
         <ImageView
             android:id="@+id/img_ads"
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:layout_weight="4" 
-            android:background="@drawable/ads00"/>
+            android:layout_weight="4"
+            android:background="@drawable/ads00" />
 
         <TextView
             android:id="@+id/txt_note1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-             android:layout_weight="0.5"
+            android:layout_weight="0.5"
             android:text="说明"
-            android:textSize="24sp"
-             />
+            android:textSize="24sp" />
+
         <TextView
             android:id="@+id/txt_note2"
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:layout_weight="4.5" 
-            android:background="@color/gray"/>
-      <LinearLayout android:id="@+id/layout_btn_container"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:orientation="horizontal"
-          android:layout_weight="1" 
-          android:layout_gravity="center_horizontal"
-          >
-        <Button
-            android:id="@+id/btn_magnifier"
+            android:layout_weight="4.5"
+            android:background="@color/gray" />
+
+        <LinearLayout
+            android:id="@+id/layout_btn_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/btn_white_gray_bg"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_marginRight="15dp"
-            android:text="放大镜"
-            />
-         <Button
-            android:id="@+id/btn_sign"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/btn_white_gray_bg"
-            android:layout_marginLeft="15dp"
-            android:text="签名"
-            />
-         <ImageButton
-            android:id="@+id/img_font_minus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/minus_btn_bg"
-            android:layout_marginLeft="15dp"
-            android:contentDescription="字体缩小"
-            />
-         <ImageButton
-            android:id="@+id/img_font_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/add_btn_bg"
-            android:layout_marginLeft="15dp"
-            android:contentDescription="字体放大"
-            />
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btn_magnifier"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/btn_white_gray_bg"
+                android:text="放大镜" />
+
+            <Button
+                android:id="@+id/btn_sign"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/btn_white_gray_bg"
+                android:text="签名" />
+
+            <ImageButton
+                android:id="@+id/img_font_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/minus_btn_bg"
+                android:contentDescription="字体缩小" />
+
+            <ImageButton
+                android:id="@+id/img_font_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/add_btn_bg"
+                android:contentDescription="字体放大" />
+
+            <Button
+                android:id="@+id/btn_scroll_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/btn_white_gray_bg"
+                android:text="上滚" />
+            <Button
+                android:id="@+id/btn_scroll_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/btn_white_gray_bg"
+                android:text="下滑" />
         </LinearLayout>
     </LinearLayout>
 

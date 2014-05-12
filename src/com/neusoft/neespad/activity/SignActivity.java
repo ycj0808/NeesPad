@@ -12,6 +12,7 @@ import com.neusoft.neespad.common.MyApplication;
 import com.neusoft.neespad.common.Util;
 import com.neusoft.neespad.view.MyWebView;
 
+import android.R.integer;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -39,6 +40,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+@SuppressLint("NewApi")
 public class SignActivity extends Activity {
 
 	private MyWebView webView;
@@ -60,7 +62,8 @@ public class SignActivity extends Activity {
 	private WebSettings settings;
 	private ImageButton fontMinus;//缩小字体
 	private ImageButton fontAdd;//放大字体
-	
+	private Button btn_scroll_add;//滚动条
+	private Button btn_scroll_minus;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,6 +71,7 @@ public class SignActivity extends Activity {
 		initView();
 	}
 
+	@SuppressWarnings("deprecation")
 	@SuppressLint("SetJavaScriptEnabled")
 	private void initView() {
 		mContext = this;
@@ -76,10 +80,15 @@ public class SignActivity extends Activity {
 		webView = (MyWebView) findViewById(R.id.webView);
 		btn_sign = (Button) findViewById(R.id.btn_sign);
 		btn_magnifier = (Button) findViewById(R.id.btn_magnifier);
+		
+		btn_scroll_add=(Button) findViewById(R.id.btn_scroll_add);
+		btn_scroll_minus=(Button) findViewById(R.id.btn_scroll_minus);
+		
 		settings = webView.getSettings();
 		settings.setJavaScriptEnabled(true);
 		settings.setSupportZoom(true);
 		settings.setBuiltInZoomControls(true);
+		settings.setTextSize(WebSettings.TextSize.LARGER);
 		webView.loadUrl(url);
 		webView.setOnTouchListener(null);
 		getDefaultFontSize();
@@ -113,8 +122,8 @@ public class SignActivity extends Activity {
 				registerForContextMenu(popview);
 
 				btn_save = (Button) popview.findViewById(R.id.btn_save);
-				btn_cancel = (Button) popview.findViewById(R.id.btn_cancel);
-				btn_exit = (Button) popview.findViewById(R.id.btn_exit);
+				btn_cancel = (Button) popview.findViewById(R.id.btn_clear);
+				btn_exit = (Button) popview.findViewById(R.id.btn_cancel);
 				btn_save.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -239,6 +248,40 @@ public class SignActivity extends Activity {
 				}
 			}
 		});
+		//滚动条
+		btn_scroll_add.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				int currY=webView.getScrollY();
+				int height=webView.getContentHeight();
+				int nextY=currY+680;
+				if(nextY<height){
+					if(nextY+680<height){
+						webView.setScrollY(nextY);
+					}else{
+						webView.setScrollY(height-680);
+						Toast.makeText(mContext, "已经达到底部", Toast.LENGTH_SHORT).show();
+					}
+				}else{
+					webView.setScrollY(height-680);
+					Toast.makeText(mContext, "已经达到底部", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+		//滚动条
+		btn_scroll_minus.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				int currY=webView.getScrollY();
+				int lastY=currY-680;
+				if(lastY>0){
+					webView.setScrollY(lastY);
+				}else{
+					webView.setScrollY(0);
+					Toast.makeText(mContext, "已经达到顶部", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
 	}
 
 	/**
@@ -249,6 +292,7 @@ public class SignActivity extends Activity {
 	 * @return void 返回类型
 	 * @throws
 	 */
+	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	private void getDefaultFontSize() {
 		if (settings.getTextSize() == WebSettings.TextSize.SMALLEST) {
@@ -387,7 +431,6 @@ public class SignActivity extends Activity {
 	/**
 	 * 
 	 * captureWebView
-	 * 
 	 * @Title: captureWebView
 	 * @Description: TODO
 	 * @param @param webView
@@ -407,7 +450,6 @@ public class SignActivity extends Activity {
 
 	/**
 	 * webView可视区域的截图 captureWebViewVisibleSize
-	 * 
 	 * @Title: captureWebViewVisibleSize
 	 * @Description: TODO
 	 * @param @param webView

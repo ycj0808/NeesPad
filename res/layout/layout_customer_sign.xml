@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/layout_right"
+        android:layout_width="240dp"
+        android:layout_height="match_parent" 
+        android:background="#14171D"
+        >
+	<ImageView 
+	    android:id="@+id/img_right_logo"
+	    android:layout_width="match_parent"
+	    android:layout_height="240dp"
+	    android:scaleType="fitXY"
+	    android:background="@drawable/right_top_logo"/>
+	
+        <LinearLayout
+            android:id="@+id/layout_tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="#14171D"
+            android:orientation="vertical" 
+            android:layout_below="@+id/img_right_logo">
+
+            <RadioGroup
+                android:id="@+id/rb_group"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#14171D"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <RadioButton
+                    android:id="@+id/rb_report"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_report_selector"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:paddingTop="20dp"
+                    android:textSize="12sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_treaty1"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_treaty_5s_selector"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:paddingTop="20dp"
+                    android:textSize="12sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_treaty2"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_treaty_186_selector"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:paddingTop="20dp"
+                    android:textSize="12sp" />
+            </RadioGroup>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <fragment
+        android:id="@+id/fragment_main"
+        android:name="com.neusoft.neespad.fragment.CustomFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@+id/layout_menu"
+        android:layout_toRightOf="@+id/layout_right" />
+
+    <RelativeLayout
+        android:id="@+id/layout_menu"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="#14171D" >
+
+        <Button
+            android:id="@+id/image_btn_sign"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/btn_sign_selector" />
+
+        <ImageButton
+            android:id="@+id/image_btn_minus"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:layout_below="@+id/tv_font_add"
+            android:background="@drawable/btn_minus_selector" />
+        
+		<TextView android:id="@+id/tv_font_minus"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_below="@+id/image_btn_minus"
+		    android:layout_centerHorizontal="true"
+		    android:layout_marginTop="25dp"
+		    android:textColor="#FFFFFF"
+		    android:textSize="24sp"
+		    android:textStyle="bold"
+		    android:text="缩小字体"/>
+        <ImageButton
+            android:id="@+id/image_btn_add"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="45dp"
+            android:scaleType="fitXY"
+            android:background="@drawable/btn_add_selector" />
+        
+		<TextView android:id="@+id/tv_font_add"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_below="@+id/image_btn_add"
+		    android:layout_centerHorizontal="true"
+		    android:layout_marginTop="25dp"
+		    android:textColor="#FFFFFF"
+		    android:textSize="24sp"
+		    android:textStyle="bold"
+		    android:text="放大字体"/>
+		
+        <ImageButton
+            android:id="@+id/btn_magnifer"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_above="@+id/image_btn_add"
+            android:layout_alignLeft="@+id/image_btn_sign"
+            android:layout_alignRight="@+id/image_btn_sign"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/btn_white_gray_bg"
+            android:text="放大镜 "
+            android:visibility="gone" />
+        
+
+        <ImageButton
+            android:id="@+id/btn_next_page"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+           android:layout_below="@+id/tv_last_page"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/btn_next_selector" />
+        
+ 		<TextView android:id="@+id/tv_next_page"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_below="@+id/btn_next_page"
+		    android:layout_centerHorizontal="true"
+		    android:layout_marginTop="25dp"
+		    android:textColor="#FFFFFF"
+		    android:textSize="24sp"
+		    android:textStyle="bold"
+		    android:text="下一页"/>
+ 		
+        <ImageButton
+            android:id="@+id/btn_last_page"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_below="@+id/image_btn_sign"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="45dp"
+            android:background="@drawable/btn_last_selector" />
+        
+        <TextView android:id="@+id/tv_last_page"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_below="@+id/btn_last_page"
+		    android:layout_centerHorizontal="true"
+		    android:layout_marginTop="25dp"
+		    android:textColor="#FFFFFF"
+		    android:textSize="24sp"
+		    android:textStyle="bold"
+		    android:text="上一页"/>
+    </RelativeLayout>
+
+</RelativeLayout>

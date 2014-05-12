@@ -1,14 +1,10 @@
 ﻿package com.neusoft.neespad.service;
-
-import com.neusoft.neespad.activity.BigSurfaceActivity;
 import com.neusoft.neespad.activity.BrowseProtocalActivity;
 import com.neusoft.neespad.activity.MainActivity;
 import com.neusoft.neespad.activity.SignActivity;
-import com.neusoft.neespad.activity.SmallSurfaceActivity;
+import com.neusoft.neespad.activity.SignCustomActivity;
 import com.neusoft.neespad.activity.TakeBusyCardActivity;
-import com.neusoft.neespad.activity.TakeBusyLicActivity;
 import com.neusoft.neespad.activity.TakeCardActivity;
-import com.neusoft.neespad.activity.TakeIDCardActivity;
 import com.neusoft.neespad.activity.TakePhotoActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -28,6 +24,8 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
     private static final String PHOTO_SMALL_SURFACE="nees.small_surface";
     private static final String PHOTO_BIG_PROCESSING="nees.take_big_photo_processing";//照证件照
     private static final String PHOTO_SMALL_PROCESSING="nees.take_small_photo_processing";//照证件照
+    
+    private static final String LOOK_REPORT="nees.look_report";
 	@Override
 	public void onReceive(final Context context, Intent intent) {
 		// 通知完成
@@ -38,7 +36,7 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
 		}
 		// 通知签名
 		if (intent.getAction().equals(SIGN_ACTION)) {
-			Intent bootStart = new Intent(context, SignActivity.class);
+			Intent bootStart = new Intent(context, SignCustomActivity.class);
 			bootStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(bootStart);
 		}
@@ -98,6 +96,14 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
 		
 		if(intent.getAction().equals(PHOTO_SMALL_SURFACE)){
 			Intent bootStart = new Intent(context, TakeCardActivity.class);
+			bootStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(bootStart);
+		}
+		/**
+		 * 新主页--受理单,签名
+		 */
+		if(intent.getAction().equals(LOOK_REPORT)){
+			Intent bootStart = new Intent(context,SignCustomActivity.class);
 			bootStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(bootStart);
 		}
